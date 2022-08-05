@@ -1,0 +1,26 @@
+{
+  // Remove .fvm files from search
+  "search.exclude": {
+    "**/.fvm": true
+  },
+  // Remove from file watching
+  "files.watcherExclude": {
+    "**/.fvm": true
+  },
+  "[dart]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true
+    }
+  },
+  "conventionalCommits.scopes": [
+    "ui",
+    "git",
+    "pub"
+  ],
+  "cSpell.words": [
+    "hwidget",
+    "lerp",
+    "swidget",
+    "vsync"
+  ]
+}
