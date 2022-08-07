@@ -104,6 +104,7 @@ dependencies:
     git:
       url: https://github.com/Benew-Software/scroll_date_picker
       ref: touch_to_scroll
+  sentry: ^6.9.0
   share_plus: ^4.0.10
   simple_timer: ^2.0.0
   sliding_up_panel: ^2.0.0+1
