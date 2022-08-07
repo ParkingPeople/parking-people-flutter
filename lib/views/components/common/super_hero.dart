@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parking_people_flutter/views/components/common/empty.view.dart';
+import 'package:parking_people_flutter/views/components/common/empty.dart';
 
 class SuperHero extends StatelessWidget {
   const SuperHero({
