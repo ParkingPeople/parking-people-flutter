@@ -227,3 +227,11 @@ flutter:
           weight: 500
         - asset: assets/fonts/SpoqaHanSansNeo-Bold.ttf
           weight: 700
+
+icons_launcher:
+  image_path: 'assets/images/icon.png'
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true

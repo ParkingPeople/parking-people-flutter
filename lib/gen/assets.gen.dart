@@ -15,6 +15,13 @@ class $AssetsImagesGen {
   /// File path: assets/images/.gitignore
   String get gitignore => 'assets/images/.gitignore';
 
+  /// File path: assets/images/icon.png
+  AssetGenImage get icon => const AssetGenImage('assets/images/icon.png');
+
+  /// File path: assets/images/icon_dark.png
+  AssetGenImage get iconDark =>
+      const AssetGenImage('assets/images/icon_dark.png');
+
   /// File path: assets/images/logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
