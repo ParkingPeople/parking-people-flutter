@@ -4,10 +4,10 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/route_manager.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:late_init/late_init.dart';
-import 'package:parking_people_flutter/constants/custom_colors.dart';
-import 'package:parking_people_flutter/views/components/go_back_button.dart';
+import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/utils/extensions/safe_state.dart';
-import 'package:state_persistence/state_persistence.dart';
+import 'package:parking_people_flutter/views/components/go_back_button.dart';
+import 'package:xcontext/xcontext.dart';
 
 ///
 class CommonScaffold extends StatefulWidget {
@@ -16,7 +16,7 @@ class CommonScaffold extends StatefulWidget {
     required this.body,
     this.centerBody = false,
     this.title = '',
-    this.backgroundColor = CustomColors.white,
+    this.backgroundColor = ColorName.lighterGrey,
     this.hideBackButton = false,
     this.actions,
     this.drawerBuilder,
@@ -98,8 +98,8 @@ class CommonScaffoldState extends SafeState<CommonScaffold>
             appBar: AppBar(
               title: Text(
                 widget.title,
-                style: const TextStyle(
-                  color: CustomColors.black,
+                style: TextStyle(
+                  color: context.theme.textTheme.bodyText2?.color,
                   fontWeight: FontWeight.w500,
                   fontSize: 24,
                 ),
@@ -108,10 +108,11 @@ class CommonScaffoldState extends SafeState<CommonScaffold>
                   shouldHideBackButton ? Container() : const GoBackButton(),
               leadingWidth: shouldHideBackButton ? 0 : 72,
               backgroundColor: widget.backgroundColor,
-              foregroundColor: CustomColors.grey,
+              foregroundColor: context.theme.textTheme.bodyText2?.color,
               toolbarHeight: 72,
               elevation: _isScrolling ? 4 : 0,
-              shadowColor: CustomColors.grey.withOpacity(0.2),
+              shadowColor:
+                  context.theme.textTheme.bodyText2?.color?.withOpacity(0.2),
               centerTitle: true,
               systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
                 statusBarColor: Colors.black,
@@ -133,47 +134,30 @@ class CommonScaffoldState extends SafeState<CommonScaffold>
               builder: (context) {
                 currentScaffoldContext = context;
 
-                return PersistedStateBuilder(
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    widget.onSnapshotChanged?.call(snapshot);
-
-                    if (snapshot.hasData) {
-                      return Container(
-                        color: widget.backgroundColor,
-                        child: SafeArea(
-                          minimum: const EdgeInsets.symmetric(horizontal: 24),
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: widget.centerBody
-                                    ? Center(
-                                        child: child,
-                                      )
-                                    : child,
-                              ),
-                              if (widget.stickyBuilder != null)
-                                widget.stickyBuilder!(
-                                  context,
-                                  isKeyboardVisible,
-                                ),
-                            ],
-                          ),
+                return Container(
+                  color: widget.backgroundColor,
+                  child: SafeArea(
+                    minimum: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: widget.centerBody
+                              ? Center(
+                                  child: child,
+                                )
+                              : child,
                         ),
-                      );
-                    }
-
-                    return const CircularProgressIndicator.adaptive();
-                  },
+                        if (widget.stickyBuilder != null)
+                          widget.stickyBuilder!(
+                            context,
+                            isKeyboardVisible,
+                          ),
+                      ],
+                    ),
+                  ),
                 );
               },
             ),
-            // endDrawer: widget.drawerBuilder == null
-            //     ? null
-            //     : Builder(
-            //         // ignore: unnecessary_lambdas, avoid_dynamic_calls
-            //         builder: (context) => widget.drawerBuilder!(context),
-            //       ),
-            // drawerScrimColor: CustomColors.darkGrey.withOpacity(0.2),
           );
         },
       ),
