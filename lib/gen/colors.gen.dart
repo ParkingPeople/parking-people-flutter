@@ -67,6 +67,15 @@ class ColorName {
   /// Color: #C8C8C8
   static const Color grey = Color(0xFFC8C8C8);
 
+  /// Color: #FEE500
+  static const Color kakaoBg = Color(0xFFFEE500);
+
+  /// Color: #D9000000
+  static const Color kakaoLabel = Color(0xD9000000);
+
+  /// Color: #000000
+  static const Color kakaoSymbol = Color(0xFF000000);
+
   /// Color: #D9D9D9
   static const Color lightGrey = Color(0xFFD9D9D9);
 

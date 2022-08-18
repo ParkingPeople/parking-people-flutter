@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:parking_people_flutter/views/screens/home_screen.dart';
 import 'package:parking_people_flutter/views/screens/intro_screen.dart';
 
 class Routes {
@@ -16,5 +17,6 @@ class Routes {
   static final routeMap = <String, WidgetBuilder>{
     // initialRoute: (_) => const InitialRouteWidget(),
     intro: (_) => const IntroScreen(),
+    home: (_) => const HomeScreen(),
   };
 }

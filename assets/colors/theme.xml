@@ -11,4 +11,8 @@
   <color name="traffic_free">#82DA64</color>
   <color name="traffic_normal">#FACC2B</color>
   <color name="traffic_crowded">#EA5C5C</color>
+
+  <color name="kakao_bg">#FEE500</color>
+  <color name="kakao_symbol">#000000</color>
+  <color name="kakao_label">#D9000000</color>
 </resources>

@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:parking_people_flutter/parking_people_app.dart';
 
 void main() {

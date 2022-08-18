@@ -78,6 +78,10 @@ dependencies:
   gap: ^2.0.0
   get: ^4.6.5
   google_fonts: ^3.0.1
+
+  flutter_localizations:
+    sdk: flutter
+
   i18n_extension: ^5.0.0
   icons_launcher: ^2.0.2
   image_picker: ^0.8.5+3
