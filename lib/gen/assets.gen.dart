@@ -36,6 +36,10 @@ class $AssetsImagesGen {
   AssetGenImage get logoDark =>
       const AssetGenImage('assets/images/logo_dark.png');
 
+  /// File path: assets/images/parking_lot_sample.jpg
+  AssetGenImage get parkingLotSample =>
+      const AssetGenImage('assets/images/parking_lot_sample.jpg');
+
   /// File path: assets/images/register_mail.svg
   SvgGenImage get registerMail =>
       const SvgGenImage('assets/images/register_mail.svg');

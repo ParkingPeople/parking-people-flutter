@@ -71,6 +71,10 @@ abstract class _LoginButton extends StatelessWidget {
                         ),
                       ),
                     ),
+                  if (icon == null)
+                    const SizedBox.square(
+                      dimension: _size,
+                    ),
                   Expanded(
                     child: Text(
                       title,
@@ -81,7 +85,7 @@ abstract class _LoginButton extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  if (icon != null) const Gap(_size),
+                  const Gap(_size),
                   const Gap(4),
                 ],
               ),

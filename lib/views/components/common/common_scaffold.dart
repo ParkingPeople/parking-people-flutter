@@ -10,9 +10,9 @@ import 'package:parking_people_flutter/views/components/go_back_button.dart';
 import 'package:xcontext/xcontext.dart';
 
 ///
-class CommonScaffold extends StatefulWidget {
+class _CommonScaffold extends StatefulWidget {
   /// Default constructor
-  const CommonScaffold({
+  const _CommonScaffold({
     required this.body,
     this.centerBody = false,
     this.title = '',
@@ -53,11 +53,11 @@ class CommonScaffold extends StatefulWidget {
   final ValueChanged<AsyncSnapshot>? onSnapshotChanged;
 
   @override
-  State<StatefulWidget> createState() => CommonScaffoldState();
+  State<StatefulWidget> createState() => _CommonScaffoldState();
 }
 
-class CommonScaffoldState extends SafeState<CommonScaffold>
-    with LateInitMixin<CommonScaffold> {
+class _CommonScaffoldState extends SafeState<_CommonScaffold>
+    with LateInitMixin<_CommonScaffold> {
   late BuildContext currentScaffoldContext;
 
   @override

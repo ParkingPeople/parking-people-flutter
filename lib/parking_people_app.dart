@@ -46,8 +46,8 @@ Widget parkingPeopleApp(BuildContext context) {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('ko', "KR"),
-        Locale('en', "US"),
+        Locale('ko', 'KR'),
+        Locale('en', 'US'),
       ],
       routes: Routes.routeMap,
       home: I18n(
