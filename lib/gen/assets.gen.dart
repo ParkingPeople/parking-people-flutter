@@ -29,12 +29,19 @@ class $AssetsImagesGen {
   SvgGenImage get kakaoLogin =>
       const SvgGenImage('assets/images/kakao_login.svg');
 
+  /// File path: assets/images/location.png
+  AssetGenImage get location =>
+      const AssetGenImage('assets/images/location.png');
+
   /// File path: assets/images/logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
   /// File path: assets/images/logo_dark.png
   AssetGenImage get logoDark =>
       const AssetGenImage('assets/images/logo_dark.png');
+
+  /// File path: assets/images/parking.png
+  AssetGenImage get parking => const AssetGenImage('assets/images/parking.png');
 
   /// File path: assets/images/parking_lot_sample.jpg
   AssetGenImage get parkingLotSample =>
