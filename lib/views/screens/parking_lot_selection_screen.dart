@@ -2,17 +2,41 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_use/flutter_use.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
+import 'package:gap/gap.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 import 'package:parking_people_flutter/gen/assets.gen.dart';
+import 'package:parking_people_flutter/gen/colors.gen.dart';
+import 'package:parking_people_flutter/models/enums.dart';
+import 'package:parking_people_flutter/models/parking_lot.dart';
 import 'package:parking_people_flutter/utils/globals.dart';
 import 'package:parking_people_flutter/views/components/common_scaffold.dart';
+import 'package:parking_people_flutter/views/components/custom_card.dart';
 
 import '/utils/extensions/material_utils.dart';
+import '/utils/extensions/list_utils.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 part 'parking_lot_selection_screen.g.dart';
+
+const List<ParkingLot> sampleData = [
+  ParkingLot(
+    name: '고현중앙공영주차장',
+    activityLevel: ActivityLevel.free,
+    walkingDistance: 130,
+  ),
+  ParkingLot(
+    name: '시외버스터미널뒤편',
+    activityLevel: ActivityLevel.normal,
+    walkingDistance: 92,
+  ),
+  ParkingLot(
+    name: '버스터미널뒤편',
+    activityLevel: ActivityLevel.crowded,
+    walkingDistance: 60,
+  ),
+];
 
 @hwidget
 Widget parkingLotSelectionScreen(BuildContext context) {
@@ -96,6 +120,34 @@ Widget parkingLotSelectionScreen(BuildContext context) {
               width: 16,
               height: 20,
               icon: parkingPinIcon.value,
+            ),
+          ],
+        ),
+      ),
+      CustomCard(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('우리 주차장'),
+                ].withSpacer(const Gap(8)).toList(),
+              ),
+            ),
+            const SizedBox.square(
+              dimension: 70,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: ColorName.trafficFree,
+                ),
+                child: Center(
+                  child: Text('여유'),
+                ),
+              ),
             ),
           ],
         ),

@@ -3,6 +3,12 @@ import 'package:i18n_extension/i18n_extension.dart';
 const ko_kr = 'ko_kr';
 const en_us = 'en_us';
 
+abstract class Translatable {
+  String get translationKey;
+
+  String get translate => translationKey.i18n;
+}
+
 class Strings {
   const Strings._();
 
@@ -28,7 +34,17 @@ class Strings {
 
   static const closeAgain = 'closeAgain';
 
-  static const _t = Translations.from(ko_kr, {
+  static const String photoStatusStored = 'photoStatusStored';
+  static const String photoStatusUploaded = 'photoStatusUploaded';
+  static const String photoStatusAnalyzing = 'photoStatusAnalyzing';
+  static const String photoStatusAnalyzed = 'photoStatusAnalyzed';
+
+  static const String activityLevelFree = 'activityLevelFree';
+  static const String activityLevelNormal = 'activityLevelNormal';
+  static const String activityLevelCrowded = 'activityLevelCrowded';
+  static const String activityLevelUnkown = 'activityLevelUnkown';
+
+  static const _translationMap = {
     appName: {
       ko_kr: '파킹피플',
       en_us: 'ParkingPeople',
@@ -89,7 +105,9 @@ class Strings {
       ko_kr: '앱을 종료하려면 뒤로 버튼을 다시 누르세요',
       en_us: 'Press back button again to close the app',
     },
-  });
+  };
+
+  static const _t = Translations.from(ko_kr, _translationMap);
 }
 
 extension Localization on String {
