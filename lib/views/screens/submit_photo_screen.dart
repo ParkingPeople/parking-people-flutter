@@ -22,14 +22,16 @@ Widget submitPhotoScreen(BuildContext context) {
             source: ImageSource.camera,
             preferredCameraDevice: CameraDevice.rear,
           );
-          final appDocDir = await getApplicationDocumentsDirectory();
-          final now = DateTime.now().millisecondsSinceEpoch;
-          // final filename = appDocDir.path.endsWith(r'/') ? '$now' : '/$now';
-          const filename = 'submitPhoto.jpg';
-          submitPhotoPath = appDocDir.path + filename;
-          photo?.saveTo(submitPhotoPath);
+          if (photo != null) {
+            final appDocDir = await getApplicationDocumentsDirectory();
+            final now = DateTime.now().millisecondsSinceEpoch;
+            // final filename = appDocDir.path.endsWith(r'/') ? '$now' : '/$now';
+            const filename = 'submitPhoto.jpg';
+            submitPhotoPath = appDocDir.path + filename;
+            photo.saveTo(submitPhotoPath);
 
-          Navigator.of(context).pushNamed(Routes.photoSubmissionResult);
+            Navigator.of(context).pushNamed(Routes.photoSubmissionResult);
+          }
         },
       ),
     ],

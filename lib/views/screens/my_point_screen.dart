@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
+import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/translations.dart';
 import 'package:parking_people_flutter/views/components/common_scaffold.dart';
 import 'package:parking_people_flutter/views/components/common_text_style_scope.dart';
@@ -31,6 +32,7 @@ Widget myPointScreen(BuildContext context) {
         dimension: 189,
         child: Center(
           child: Card(
+            color: ColorName.blue,
             shape: CircleBorder(),
             clipBehavior: Clip.hardEdge,
             child: Center(
@@ -38,6 +40,7 @@ Widget myPointScreen(BuildContext context) {
                 '35포인트',
                 style: TextStyle(
                   fontSize: 30,
+                  color: Colors.white,
                 ),
               ),
             ),

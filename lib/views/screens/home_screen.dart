@@ -23,6 +23,8 @@ part 'home_screen.g.dart';
 bool canClose = false;
 Timer timer = Timer(Duration.zero, () {});
 
+late String normalizedAddress;
+
 @hwidget
 Widget homeScreen(BuildContext context) {
   ValueNotifier<Placemark?> location = useState<Placemark?>(null);
@@ -190,7 +192,14 @@ Widget homeScreen(BuildContext context) {
             ),
             CustomCard(
               title: Strings.recommendHere.i18n,
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  Routes.searchResult,
+                  arguments: {
+                    'address': normalizedAddress,
+                  },
+                );
+              },
               child: (() {
                 final place = location.value;
                 if (place == null) return null;
@@ -199,6 +208,7 @@ Widget homeScreen(BuildContext context) {
                 final normalized = streetAddress.toHalfWidth
                     .replaceAll(RegExp(r' +'), ' ')
                     .trim();
+                normalizedAddress = normalized;
                 return Text(
                   normalized,
                   style: const TextStyle(

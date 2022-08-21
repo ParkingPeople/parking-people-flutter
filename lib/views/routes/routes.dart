@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:parking_people_flutter/views/screens/home_screen.dart';
 import 'package:parking_people_flutter/views/screens/intro_screen.dart';
 import 'package:parking_people_flutter/views/screens/my_point_screen.dart';
+import 'package:parking_people_flutter/views/screens/parking_lot_selection_screen.dart';
 import 'package:parking_people_flutter/views/screens/submit_photo_screen.dart';
 import 'package:parking_people_flutter/views/screens/submit_result_screen.dart';
 
@@ -22,7 +23,7 @@ class Routes {
     intro: (_) => const IntroScreen(),
     home: (_) => const HomeScreen(),
     pointStatus: (_) => const MyPointScreen(),
-    // searchResult: (_) => const ParkingLotSelectionScreen(),
+    searchResult: (_) => const ParkingLotSelectionScreen(),
     // locationDetail: (_) => const ParkingLotDetailScreen(),
     photoSubmission: (_) => const SubmitPhotoScreen(),
     photoSubmissionResult: (_) => const SubmitResultScreen(),

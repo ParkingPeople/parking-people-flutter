@@ -6,6 +6,8 @@ import 'package:functional_widget_annotation/functional_widget_annotation.dart';
 import 'package:gap/gap.dart';
 import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/utils/globals.dart';
+import 'package:parking_people_flutter/views/components/common/empty.dart';
+import 'package:parking_people_flutter/views/components/common_badge.dart';
 import 'package:parking_people_flutter/views/components/common_scaffold.dart';
 
 part 'submit_result_screen.g.dart';
@@ -70,11 +72,60 @@ Widget submitResultScreen(BuildContext context) {
               ],
             ),
           ),
+          const Gap(16),
           Table(
             columnWidths: const {
               0: IntrinsicColumnWidth(),
-              1: FlexColumnWidth(),
+              1: FixedColumnWidth(8),
+              2: FlexColumnWidth(),
             },
+            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+            children: [
+              const TableRow(
+                children: [
+                  Text('촬영 일시'),
+                  Empty(),
+                  Text('2022. 08. 14 오전 11:26'),
+                ],
+              ),
+              const TableRow(
+                children: [
+                  Text('주차 위치'),
+                  Empty(),
+                  Text('D4'),
+                ],
+              ),
+              const TableRow(
+                children: [
+                  Text('사진 갯수'),
+                  Empty(),
+                  Text('4장'),
+                ],
+              ),
+              TableRow(
+                children: [
+                  const Text('상태'),
+                  const Empty(),
+                  Row(
+                    children: const [
+                      CommonBadge(color: ColorName.blue, content: '검토 완료'),
+                      Spacer(),
+                    ],
+                  ),
+                ],
+              ),
+            ]
+                .expand((element) => [
+                      element,
+                      const TableRow(
+                        children: [
+                          Gap(8),
+                          Empty(),
+                          Empty(),
+                        ],
+                      ),
+                    ])
+                .toList(),
             // children: {'촬영 일시': '2022. 08. 14 오전 11:26', '주차 위치': 'D4', '사진 갯수': '4장','상태': PhotoStatus.analyzed,}.entries.map(),
           ),
         ],
