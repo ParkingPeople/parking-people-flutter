@@ -1045,6 +1045,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  naver_map_plugin:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: f63cb7379c5d1d303c8467fdc3f20270d89c0464
+      url: "https://github.com/qb20nh/naver_map_plugin.git"
+    source: git
+    version: "0.9.7"
   nested:
     dependency: transitive
     description:

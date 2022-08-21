@@ -8,6 +8,11 @@
         android:label="ParkingPeople"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="xmkr0n2r10" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

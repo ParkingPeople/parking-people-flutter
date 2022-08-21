@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_use/flutter_use.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
@@ -12,6 +13,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/translations.dart';
 import 'package:parking_people_flutter/utils/extensions/list_utils.dart';
+import 'package:parking_people_flutter/utils/globals.dart';
 import 'package:parking_people_flutter/views/components/custom_card.dart';
 import 'package:parking_people_flutter/views/routes/routes.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -25,12 +27,73 @@ Timer timer = Timer(Duration.zero, () {});
 
 late String normalizedAddress;
 
+Position? currentPosition;
+
 @hwidget
 Widget homeScreen(BuildContext context) {
-  ValueNotifier<Placemark?> location = useState<Placemark?>(null);
+  final ValueNotifier<Placemark?> location = useState<Placemark?>(null);
+
+  final ValueNotifier<bool> isLoadingPosition = useValueNotifier<bool>(false);
+
+  final textEditingController = useTextEditingController();
+
+  final focusNode = useFocusNode();
+
+  void gotoNextScreen({
+    required String address,
+    Position? position,
+  }) async {
+    if (isLoadingPosition.value) {
+      return;
+    }
+    Location? finalPosition;
+    if (address.isNotEmpty) {
+      if (position == null) {
+        isLoadingPosition.value = true;
+        try {
+          List<Location> locations = await locationFromAddress(address);
+          if (locations.isNotEmpty) {
+            defaultLogger.i(locations);
+            finalPosition = locations.first;
+          }
+        } on NoResultFoundException catch (e) {
+          defaultLogger.e(e);
+        }
+      } else {
+        finalPosition = Location(
+          latitude: position.latitude,
+          longitude: position.longitude,
+          timestamp: position.timestamp ?? DateTime.now(),
+        );
+      }
+      if (finalPosition != null) {
+        await Navigator.of(context).pushNamed(
+          Routes.searchResult,
+          arguments: {
+            'address': address,
+            'location': finalPosition,
+          },
+        );
+      } else {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(
+            content: Text(
+              '장소를 찾을 수 없습니다.',
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+            backgroundColor: Theme.of(context).dialogBackgroundColor,
+          ));
+      }
+      isLoadingPosition.value = false;
+    } else {
+      focusNode.requestFocus();
+    }
+  }
 
   void getLocation() async {
     final Position position = await Geolocator.getCurrentPosition();
+    currentPosition = position;
     final Locale appLocale = Localizations.localeOf(context);
     final List<Placemark> placemarks = await placemarkFromCoordinates(
         position.latitude, position.longitude,
@@ -142,45 +205,74 @@ Widget homeScreen(BuildContext context) {
               builder: (context, child) {
                 return Column(
                   children: [
-                    TextField(
-                      keyboardType: TextInputType.streetAddress,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        hintText: Strings.searchHint.i18n,
-                        suffixIcon: const Icon(Icons.search_rounded),
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 8,
-                          horizontal: 12,
-                        ),
-                      ),
-                      style: const TextStyle(
-                        fontSize: 15,
-                      ),
+                    ValueListenableBuilder<bool>(
+                      valueListenable: isLoadingPosition,
+                      builder: (context, isLoading, child) {
+                        return TextField(
+                          readOnly: isLoading,
+                          controller: textEditingController,
+                          focusNode: focusNode,
+                          keyboardType: TextInputType.streetAddress,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            hintText: Strings.searchHint.i18n,
+                            suffixIcon: const Icon(Icons.search_rounded),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 12,
+                            ),
+                          ),
+                          style: const TextStyle(
+                            fontSize: 15,
+                          ),
+                          textInputAction: TextInputAction.search,
+                          onSubmitted: (text) {
+                            gotoNextScreen(address: text);
+                          },
+                        );
+                      },
                     ),
                     const Gap(32),
                     Row(
                       children: [
                         const Gap(16),
                         Expanded(
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor: ColorName.blue,
-                              primary: Colors.white,
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            onPressed: () {},
-                            child: Text(
-                              Strings.searchAction.i18n,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                              ),
-                            ),
+                          child: ValueListenableBuilder<bool>(
+                            valueListenable: isLoadingPosition,
+                            builder: (context, isLoading, child) {
+                              return TextButton(
+                                style: TextButton.styleFrom(
+                                  backgroundColor: ColorName.blue,
+                                  primary: Colors.white,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                onPressed: isLoading
+                                    ? null
+                                    : () {
+                                        gotoNextScreen(
+                                            address:
+                                                textEditingController.text);
+                                      },
+                                child: isLoading
+                                    ? const SpinKitThreeBounce(
+                                        color: Colors.white,
+                                        size: 20,
+                                      )
+                                    : Text(
+                                        Strings.searchAction.i18n,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                              );
+                            },
                           ),
                         ),
                         const Gap(16),
@@ -193,12 +285,10 @@ Widget homeScreen(BuildContext context) {
             CustomCard(
               title: Strings.recommendHere.i18n,
               onTap: () {
-                Navigator.of(context).pushNamed(
-                  Routes.searchResult,
-                  arguments: {
-                    'address': normalizedAddress,
-                  },
-                );
+                if (currentPosition != null) {
+                  gotoNextScreen(
+                      address: normalizedAddress, position: currentPosition);
+                }
               },
               child: (() {
                 final place = location.value;

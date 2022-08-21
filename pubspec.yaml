@@ -95,6 +95,10 @@ dependencies:
   mask_text_input_formatter: ^2.4.0
   measurer: ^2.1.1
   # native_updater: ^0.1.1
+  naver_map_plugin:
+    git:
+      url: https://github.com/qb20nh/naver_map_plugin.git
+      ref: master
   octo_image: ^1.0.2
   package_info_plus: ^1.4.3
   path_provider: ^2.0.11
