@@ -6,7 +6,6 @@ import 'package:gap/gap.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 import 'package:parking_people_flutter/gen/assets.gen.dart';
-import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/models/enums.dart';
 import 'package:parking_people_flutter/models/parking_lot.dart';
 import 'package:parking_people_flutter/utils/globals.dart';
@@ -124,32 +123,42 @@ Widget parkingLotSelectionScreen(BuildContext context) {
           ],
         ),
       ),
-      CustomCard(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('우리 주차장'),
-                ].withSpacer(const Gap(8)).toList(),
-              ),
-            ),
-            const SizedBox.square(
-              dimension: 70,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: ColorName.trafficFree,
-                ),
-                child: Center(
-                  child: Text('여유'),
+      ...sampleData.map(
+        (parkingLot) => CustomCard(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(parkingLot.name),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text('목적지에서'),
+                        const Gap(8),
+                        Text('${parkingLot.walkingDistance}m'),
+                      ],
+                    ),
+                  ].withSpacer(const Gap(8)).toList(),
                 ),
               ),
-            ),
-          ],
+              SizedBox.square(
+                dimension: 70,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: parkingLot.activityLevel.displayColor,
+                  ),
+                  child: Center(
+                    child: Text(parkingLot.activityLevel.translate),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     ],

@@ -3,7 +3,7 @@ import 'package:functional_enum_annotation/functional_enum_annotation.dart';
 import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/translations.dart';
 
-part 'photo_status.g.dart';
+part 'enums.g.dart';
 
 @functionalEnum
 enum PhotoStatus with Translatable {
