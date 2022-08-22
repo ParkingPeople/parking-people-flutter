@@ -84,7 +84,12 @@ Widget parkingLotDetailScreen(BuildContext context) {
             content: '기본 요금',
           ),
           const Gap(8),
-          const Text('30분 9000원, 추가 10분 300원'),
+          const Expanded(
+            child: Text(
+              '30분 9000원, 추가 10분 300원',
+              overflow: TextOverflow.fade,
+            ),
+          ),
         ],
       ),
       TextButton(

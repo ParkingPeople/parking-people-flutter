@@ -6,6 +6,7 @@ import 'package:i18n_extension/i18n_widget.dart';
 import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/gen/fonts.gen.dart';
 import 'package:parking_people_flutter/utils/globals.dart';
+import 'package:parking_people_flutter/views/routes/initial_route.dart';
 import 'package:parking_people_flutter/views/routes/routes.dart';
 import 'package:parking_people_flutter/views/screens/intro_screen.dart';
 
@@ -51,7 +52,7 @@ Widget parkingPeopleApp(BuildContext context) {
       ],
       routes: Routes.routeMap,
       home: I18n(
-        child: const IntroScreen(),
+        child: const InitialRouteWidget(),
       ),
       theme: light,
       darkTheme: dark,

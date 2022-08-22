@@ -15,10 +15,6 @@ part 'intro_screen.g.dart';
 
 @hwidget
 Widget introScreen(BuildContext context) {
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    FlutterNativeSplash.remove();
-  });
-
   return Scaffold(
     body: SafeArea(
       child: Center(
