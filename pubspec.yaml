@@ -40,11 +40,10 @@ dependencies:
   auto_animated: ^3.0.1
   auto_size_text: ^3.0.0
   back_button_interceptor: ^6.0.1
-  background_fetch: ^1.1.0
+  # background_fetch: ^1.1.0
   badges: ^2.0.3
   basics: ^0.9.0
   bouncing_widget: ^2.0.0
-  catcher:
   chewie: ^1.3.4
   coast: ^2.0.2
   dart_numerics: ^0.0.6
@@ -57,7 +56,7 @@ dependencies:
   feedback: ^2.5.0
   ffmpeg_kit_flutter: ^4.5.1
   fl_chart: ^0.55.1
-  flutter_background_geolocation: ^4.7.0
+  # flutter_background_geolocation: ^4.7.0
   flutter_hooks: ^0.18.5+1
   flutter_image_compress: ^1.1.1
   flutter_isolate: ^2.0.2
@@ -74,11 +73,17 @@ dependencies:
   flutter_use: ^0.0.2
   fluttertoast: ^8.0.9
   freezed_annotation: ^2.0.3
-  functional_enum_annotation:
+  functional_enum_annotation: "1.2.2"
   functional_widget_annotation: ^0.10.0
   gap: ^2.0.0
+  geocoding: ^2.0.4
+  geolocator: ^9.0.1
   get: ^4.6.5
   google_fonts: ^3.0.1
+
+  flutter_localizations:
+    sdk: flutter
+
   i18n_extension: ^5.0.0
   icons_launcher: ^2.0.2
   image_picker: ^0.8.5+3
@@ -89,7 +94,11 @@ dependencies:
   logger: ^1.1.0
   mask_text_input_formatter: ^2.4.0
   measurer: ^2.1.1
-  native_updater: ^0.1.1
+  # native_updater: ^0.1.1
+  naver_map_plugin:
+    git:
+      url: https://github.com/qb20nh/naver_map_plugin.git
+      ref: master
   octo_image: ^1.0.2
   package_info_plus: ^1.4.3
   path_provider: ^2.0.11
@@ -100,11 +109,6 @@ dependencies:
   responsive_framework: ^0.2.0
   retrofit: '>=3.0.0 <4.0.0'
   screwdriver: ^3.0.0
-  scroll_date_picker:
-    git:
-      url: https://github.com/Benew-Software/scroll_date_picker
-      ref: touch_to_scroll
-  sentry: ^6.9.0
   share_plus: ^4.0.10
   simple_timer: ^2.0.0
   sliding_up_panel: ^2.0.0+1
@@ -112,7 +116,7 @@ dependencies:
     git:
       url: https://github.com/qb20nh/state_machina
       ref: null-safety
-  state_persistence: ^0.1.0
+  # state_persistence: ^0.1.0
   suspense: ^1.1.0+1
   synchronized: ^3.0.0+2
   text_selection_controls:
@@ -121,14 +125,16 @@ dependencies:
       ref: master
       path: text_selection_controls
   throttling: ^1.0.0
+  unorm_dart: ^0.2.0
   url_launcher: ^6.1.5
   validators: ^3.0.0
   vector_math: ^2.1.2
   vibration: ^1.7.5
-  video_player: ^2.4.5
-  visibility_detector:
+  video_player: ^2.4.6
+  visibility_detector: "0.2.2"
   xcontext: ^1.0.0
-
+  meta: "1.8.0"
+  adaptive_theme: ^3.1.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -154,13 +160,15 @@ dev_dependencies:
       path: packages/functional_enum/
   # build_runner: ^2.1.11
   freezed: ^2.0.4
-  json_serializable: ^6.3.1
+  json_serializable: ">= 6.0.0 < 7.0.0"
   flutter_gen_runner:
 
   retrofit_generator: '>=4.0.0 <5.0.0'
   build_runner: '<4.0.0'
 
   flutter_oss_licenses: ^2.0.1
+
+  change_app_package_name: ^1.1.0
 
 dependency_overrides:
   analyzer: ">=4.2.0 <5.0.0"
@@ -170,6 +178,9 @@ dependency_overrides:
 flutter_gen:
   integrations:
     flutter_svg: true
+  colors:
+    inputs:
+      - assets/colors/theme.xml
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -219,13 +230,21 @@ flutter:
   fonts:
     - family: SpoqaHanSansNeo
       fonts:
-        - asset: assets/fonts/SpoqaHanSansNeo-Thin.otf
+        - asset: assets/fonts/SpoqaHanSansNeo-Thin.ttf
           weight: 200
-        - asset: assets/fonts/SpoqaHanSansNeo-Light.otf
+        - asset: assets/fonts/SpoqaHanSansNeo-Light.ttf
           weight: 300
-        - asset: assets/fonts/SpoqaHanSansNeo-Medium.otf
+        - asset: assets/fonts/SpoqaHanSansNeo-Medium.ttf
           weight: 400
-        - asset: assets/fonts/SpoqaHanSansNeo-Regular.otf
+        - asset: assets/fonts/SpoqaHanSansNeo-Regular.ttf
           weight: 500
-        - asset: assets/fonts/SpoqaHanSansNeo-Bold.otf
+        - asset: assets/fonts/SpoqaHanSansNeo-Bold.ttf
           weight: 700
+
+icons_launcher:
+  image_path: 'assets/images/icon.png'
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true

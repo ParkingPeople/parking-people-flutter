@@ -1,13 +1,13 @@
 import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
-import 'package:parking_people_flutter/constants/custom_colors.dart';
+import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/utils/colors.dart';
 
 part 'common_button.g.dart';
 
 Color _splashBaseColor(Color buttonColor) =>
-    isDark(buttonColor) ? CustomColors.white : CustomColors.blue;
+    isDark(buttonColor) ? Colors.white : ColorName.blue;
 
 @swidget
 Widget commonButton({
@@ -39,7 +39,7 @@ Widget commonButton({
         border: buttonBorder ??
             (borderWidth > 0
                 ? Border.all(
-                    color: Color.lerp(buttonColor, CustomColors.black, .06)!,
+                    color: Color.lerp(buttonColor, ColorName.black, .06)!,
                     width: borderWidth,
                   )
                 : null),

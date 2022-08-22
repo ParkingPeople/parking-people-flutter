@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="blue" type="material material-accent">#316AFB</color>
+  <color name="black">#242424</color>
+  <color name="darker_grey">#525252</color>
+  <color name="dark_grey">#8C8C8C</color>
+  <color name="grey">#C8C8C8</color>
+  <color name="light_grey">#D9D9D9</color>
+  <color name="lighter_grey">#F4F4F4</color>
+
+  <color name="traffic_free">#82DA64</color>
+  <color name="traffic_normal">#FACC2B</color>
+  <color name="traffic_crowded">#EA5C5C</color>
+
+  <color name="kakao_bg">#FEE500</color>
+  <color name="kakao_symbol">#000000</color>
+  <color name="kakao_label">#D9000000</color>
+</resources>
