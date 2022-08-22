@@ -123,7 +123,6 @@ Widget parkingLotSelectionScreen(BuildContext context) {
               icon: parkingPinIcon.value,
             ),
           ],
-          useSurface: kReleaseMode,
         ),
       ),
       ...sampleData.map(
