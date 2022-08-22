@@ -1,4 +1,5 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_use/flutter_use.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
@@ -11,6 +12,7 @@ import 'package:parking_people_flutter/models/parking_lot.dart';
 import 'package:parking_people_flutter/utils/globals.dart';
 import 'package:parking_people_flutter/views/components/common_scaffold.dart';
 import 'package:parking_people_flutter/views/components/custom_card.dart';
+import 'package:parking_people_flutter/views/routes/routes.dart';
 
 import '/utils/extensions/material_utils.dart';
 import '/utils/extensions/list_utils.dart';
@@ -95,36 +97,44 @@ Widget parkingLotSelectionScreen(BuildContext context) {
             Marker(
               markerId: '1',
               position: LatLng(location.latitude, location.longitude),
-              width: 16,
+              width: 20,
               height: 20,
               icon: targetPinIcon.value,
             ),
             Marker(
               markerId: '2',
               position: const LatLng(34.890858, 128.623559),
-              width: 16,
+              width: 20,
               height: 20,
               icon: parkingPinIcon.value,
             ),
             Marker(
               markerId: '3',
               position: const LatLng(34.890767, 128.622794),
-              width: 16,
+              width: 20,
               height: 20,
               icon: parkingPinIcon.value,
             ),
             Marker(
               markerId: '4',
               position: const LatLng(34.890186, 128.624471),
-              width: 16,
+              width: 20,
               height: 20,
               icon: parkingPinIcon.value,
             ),
           ],
+          useSurface: kReleaseMode,
         ),
       ),
       ...sampleData.map(
         (parkingLot) => CustomCard(
+          hideAction: true,
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              Routes.locationDetail,
+              arguments: {'parkingLot': parkingLot},
+            );
+          },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -133,18 +143,35 @@ Widget parkingLotSelectionScreen(BuildContext context) {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(parkingLot.name),
+                    Text(
+                      parkingLot.name,
+                      style: const TextStyle(
+                        fontSize: 17,
+                      ),
+                    ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text('목적지에서'),
+                        const Text(
+                          '목적지에서',
+                          style: TextStyle(
+                            fontSize: 13,
+                          ),
+                        ),
                         const Gap(8),
-                        Text('${parkingLot.walkingDistance}m'),
+                        Text(
+                          '${parkingLot.walkingDistance}m',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
                   ].withSpacer(const Gap(8)).toList(),
                 ),
               ),
+              const Gap(8),
               SizedBox.square(
                 dimension: 70,
                 child: DecoratedBox(

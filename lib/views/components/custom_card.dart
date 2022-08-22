@@ -13,6 +13,7 @@ Widget customCard(
   Widget? child,
   TransitionBuilder? builder,
   VoidCallback? onTap,
+  bool hideAction = false,
   String? action,
 }) {
   return Center(
@@ -28,30 +29,34 @@ Widget customCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  if (title != null)
-                    Expanded(
-                      child: Text(
-                        title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
+              if (title != null ||
+                  action != null ||
+                  (onTap != null && !hideAction))
+                Row(
+                  children: [
+                    if (title != null)
+                      Expanded(
+                        child: Text(
+                          title,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                  if (action != null)
-                    Text(
-                      action,
-                      style: const TextStyle(
-                        fontSize: 13,
+                    if (action != null)
+                      Text(
+                        action,
+                        style: const TextStyle(
+                          fontSize: 13,
+                        ),
                       ),
-                    ),
-                  if (onTap != null) const Icon(Icons.chevron_right_rounded),
-                ],
-              ),
+                    if (onTap != null && !hideAction)
+                      const Icon(Icons.chevron_right_rounded),
+                  ],
+                ),
               if (builder != null) builder.call(context, child),
               if (builder == null && child != null) child,
             ].withSpacer(const Gap(16)).toList(),

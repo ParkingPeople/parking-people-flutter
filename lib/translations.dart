@@ -44,6 +44,8 @@ class Strings {
   static const String activityLevelCrowded = 'activityLevelCrowded';
   static const String activityLevelUnkown = 'activityLevelUnkown';
 
+  static const navigate = 'navigate';
+
   static const _translationMap = {
     appName: {
       ko_kr: '파킹피플',
@@ -104,6 +106,21 @@ class Strings {
     closeAgain: {
       ko_kr: '앱을 종료하려면 뒤로 버튼을 다시 누르세요',
       en_us: 'Press back button again to close the app',
+    },
+    activityLevelFree: {
+      ko_kr: '여유',
+    },
+    activityLevelNormal: {
+      ko_kr: '보통',
+    },
+    activityLevelCrowded: {
+      ko_kr: '혼잡',
+    },
+    activityLevelUnkown: {
+      ko_kr: '미상',
+    },
+    navigate: {
+      ko_kr: '길 안내하기',
     },
   };
 

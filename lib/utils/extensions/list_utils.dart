@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 extension IterableUtils<T> on Iterable<Iterable<T>> {
@@ -21,7 +21,7 @@ extension InsertJoiners on Iterable<Widget> {
   }
 
   Iterable<Widget> wrapEachPadding(EdgeInsets padding) =>
-      map((e) => e is Flexible || e is Spacer || e is Gap
+      map((e) => e is Flexible || e is Spacer || e is Gap || e is Divider
           ? e
           : Padding(
               padding: padding,
