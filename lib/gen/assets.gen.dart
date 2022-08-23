@@ -54,6 +54,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/splash_logo.png
   AssetGenImage get splashLogo =>
       const AssetGenImage('assets/images/splash_logo.png');
+
+  /// File path: assets/images/splash_title.svg
+  SvgGenImage get splashTitle =>
+      const SvgGenImage('assets/images/splash_title.svg');
 }
 
 class Assets {
