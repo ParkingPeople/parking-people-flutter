@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:parking_people_flutter/models/enums.dart';
+import 'package:parking_people_flutter/models/parking_lot.dart';
 
 part 'api_response.freezed.dart';
 part 'api_response.g.dart';
@@ -13,9 +14,9 @@ abstract class ApiResponse<T extends ApiResponse<T>> {
 @freezed
 class ParkingLotResponse with _$ParkingLotResponse {
   const factory ParkingLotResponse({
-    required List<ParkingLotResponse> parkingLots,
+    required List<ParkingLot> parkingLots,
     required ResponseStatus status,
-    required int count,
+    int? count,
   }) = _ParkingLotResponse;
 
   factory ParkingLotResponse.fromJson(Map<String, Object?> json) =>

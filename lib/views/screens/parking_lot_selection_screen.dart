@@ -57,7 +57,7 @@ Widget parkingLotSelectionScreen(BuildContext context) {
     final future = dio.getRecommendations(
       lat: location.latitude,
       lng: location.longitude,
-      rangeInKm: 1,
+      rangeInKm: 2,
     )..then((value) => defaultLogger.d(value));
     return () {
       future.timeout(Duration.zero);
