@@ -7,19 +7,22 @@
     {
       "name": "parking_people_flutter",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
+      // "preLaunchTask": "run_build_runner"
     },
     {
       "name": "parking_people_flutter (profile mode)",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "profile"
+      "flutterMode": "profile",
+      // "preLaunchTask": "run_build_runner"
     },
     {
       "name": "parking_people_flutter (release mode)",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "release"
+      "flutterMode": "release",
+      // "preLaunchTask": "run_build_runner"
     }
   ]
 }
