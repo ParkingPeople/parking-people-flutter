@@ -50,6 +50,7 @@ dependencies:
   decimal: ^2.2.0
   defer_pointer: ^0.0.2
   dialog: ^0.8.0
+  dio: ^4.0.6
   dropdown_button2: ^1.7.1
   expand_tap_area: ^1.1.1
   expandable: ^5.0.1

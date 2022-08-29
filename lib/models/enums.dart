@@ -20,10 +20,10 @@ enum PhotoStatus with Translatable {
 
 @functionalEnum
 enum ActivityLevel with Translatable {
-  free(Strings.activityLevelFree, ColorName.trafficFree),
-  normal(Strings.activityLevelNormal, ColorName.trafficNormal),
-  crowded(Strings.activityLevelCrowded, ColorName.trafficCrowded),
-  unknown(Strings.activityLevelUnkown, ColorName.darkGrey);
+  FREE(Strings.activityLevelFree, ColorName.trafficFree),
+  NORMAL(Strings.activityLevelNormal, ColorName.trafficNormal),
+  CROWDED(Strings.activityLevelCrowded, ColorName.trafficCrowded),
+  UNKNOWN(Strings.activityLevelUnkown, ColorName.darkGrey);
 
   const ActivityLevel(
     this.translationKey,
@@ -34,4 +34,16 @@ enum ActivityLevel with Translatable {
   final String translationKey;
 
   final Color displayColor;
+}
+
+enum ResponseStatus {
+  OK(200, "OK"),
+  BAD_REQUEST(400, "BAD_REQUEST"),
+  NOT_FOUND(404, "NOT_FOUND"),
+  INTERNAL_SERER_ERROR(500, "INTERNAL_SERVER_ERROR");
+
+  const ResponseStatus(this.statusCode, this.code);
+
+  final int statusCode;
+  final String code;
 }

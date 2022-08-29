@@ -1,5 +1,5 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:flutter/foundation.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_use/flutter_use.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
@@ -9,6 +9,7 @@ import 'package:naver_map_plugin/naver_map_plugin.dart';
 import 'package:parking_people_flutter/gen/assets.gen.dart';
 import 'package:parking_people_flutter/models/enums.dart';
 import 'package:parking_people_flutter/models/parking_lot.dart';
+import 'package:parking_people_flutter/repository/rest_api.dart';
 import 'package:parking_people_flutter/utils/globals.dart';
 import 'package:parking_people_flutter/views/components/common_scaffold.dart';
 import 'package:parking_people_flutter/views/components/custom_card.dart';
@@ -24,17 +25,17 @@ part 'parking_lot_selection_screen.g.dart';
 const List<ParkingLot> sampleData = [
   ParkingLot(
     name: '고현중앙공영주차장',
-    activityLevel: ActivityLevel.free,
+    activityLevel: ActivityLevel.FREE,
     walkingDistance: 130,
   ),
   ParkingLot(
     name: '시외버스터미널뒤편',
-    activityLevel: ActivityLevel.normal,
+    activityLevel: ActivityLevel.NORMAL,
     walkingDistance: 92,
   ),
   ParkingLot(
     name: '버스터미널뒤편',
-    activityLevel: ActivityLevel.crowded,
+    activityLevel: ActivityLevel.CROWDED,
     walkingDistance: 60,
   ),
 ];
@@ -49,6 +50,19 @@ Widget parkingLotSelectionScreen(BuildContext context) {
   ValueNotifier<OverlayImage?> parkingPinIcon = useState<OverlayImage?>(null);
 
   defaultLogger.d(args);
+
+  final dio = RestClient(Dio());
+
+  useEffectOnce(() {
+    final future = dio.getRecommendations(
+      lat: location.latitude,
+      lng: location.longitude,
+      rangeInKm: 1,
+    )..then((value) => defaultLogger.d(value));
+    return () {
+      future.timeout(Duration.zero);
+    };
+  });
 
   const Color naverColor = Color.fromARGB(255, 100, 255, 130);
 
