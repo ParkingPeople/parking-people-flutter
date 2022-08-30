@@ -22,9 +22,8 @@ class ParkingLot with _$ParkingLot {
     String? contact,
     int? timeToDes,
     int? distanceToDes,
-    // required double latitude,
-    // required double longitude,
-    int? walkingDistance,
+    required double latitude,
+    required double longitude,
   }) = _ParkingLot;
 
   factory ParkingLot.fromJson(Map<String, Object?> json) =>

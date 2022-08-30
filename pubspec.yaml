@@ -37,6 +37,7 @@ dependencies:
   animations: ^2.0.3
   another_transformer_page_view: ^2.0.0
   assorted_layout_widgets: ^6.1.1
+  async: ^2.8.2
   auto_animated: ^3.0.1
   auto_size_text: ^3.0.0
   back_button_interceptor: ^6.0.1
