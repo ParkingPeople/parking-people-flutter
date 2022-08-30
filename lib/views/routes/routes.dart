@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:parking_people_flutter/views/routes/initial_route.dart';
+import 'package:parking_people_flutter/views/screens/splash_screen.dart';
 import 'package:parking_people_flutter/views/screens/home_screen.dart';
 import 'package:parking_people_flutter/views/screens/intro_screen.dart';
 import 'package:parking_people_flutter/views/screens/my_point_screen.dart';
@@ -11,7 +11,7 @@ import 'package:parking_people_flutter/views/screens/submit_result_screen.dart';
 class Routes {
   const Routes._();
 
-  static const initialRoute = '/splash';
+  static const splash = '/splash';
   static const intro = '/intro';
   static const home = '/home';
   static const searchResult = '/searchResult';
@@ -21,7 +21,7 @@ class Routes {
   static const photoSubmissionResult = '$photoSubmission/result';
 
   static final routeMap = <String, WidgetBuilder>{
-    initialRoute: (_) => const InitialRouteWidget(),
+    splash: (_) => const SplashScreen(),
     intro: (_) => const IntroScreen(),
     home: (_) => const HomeScreen(),
     pointStatus: (_) => const MyPointScreen(),

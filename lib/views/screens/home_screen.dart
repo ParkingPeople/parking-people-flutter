@@ -10,6 +10,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:parking_people_flutter/gen/assets.gen.dart';
 import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/translations.dart';
 import 'package:parking_people_flutter/utils/extensions/list_utils.dart';
@@ -143,9 +144,9 @@ Widget homeScreen(BuildContext context) {
     },
     child: Scaffold(
       appBar: AppBar(
-        title: Text(
-          Strings.appName.i18n,
-          style: const TextStyle(fontSize: 20),
+        title: Assets.images.splashTitle.svg(
+          color: Theme.of(context).textTheme.bodyText2?.color,
+          height: 20,
         ),
         toolbarHeight: 60,
         backgroundColor: Colors.transparent,
@@ -153,46 +154,50 @@ Widget homeScreen(BuildContext context) {
         elevation: 0,
       ),
       endDrawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: ColorName.blue,
-              ),
-              child: Text(
-                'Drawer Header',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
+        child: Builder(
+          builder: (context) {
+            return ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                const DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: ColorName.blue,
+                  ),
+                  child: Text(
+                    'Drawer Header',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.notifications_rounded),
-              title: const Text('Alerts'),
-              onTap: () {
-                Fluttertoast.showToast(msg: 'Alerts item tapped');
-                Scaffold.of(context).closeEndDrawer();
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.account_circle_rounded),
-              title: const Text('Profile'),
-              onTap: () {
-                Fluttertoast.showToast(msg: 'Profile item tapped');
-                Scaffold.of(context).closeEndDrawer();
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings_rounded),
-              title: const Text('Settings'),
-              onTap: () {
-                Fluttertoast.showToast(msg: 'Settings item tapped');
-                Scaffold.of(context).closeEndDrawer();
-              },
-            ),
-          ],
+                ListTile(
+                  leading: const Icon(Icons.notifications_rounded),
+                  title: const Text('Alerts'),
+                  onTap: () {
+                    Fluttertoast.showToast(msg: 'Alerts item tapped');
+                    Scaffold.of(context).closeEndDrawer();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.account_circle_rounded),
+                  title: const Text('Profile'),
+                  onTap: () {
+                    Fluttertoast.showToast(msg: 'Profile item tapped');
+                    Scaffold.of(context).closeEndDrawer();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.settings_rounded),
+                  title: const Text('Settings'),
+                  onTap: () {
+                    Fluttertoast.showToast(msg: 'Settings item tapped');
+                    Scaffold.of(context).closeEndDrawer();
+                  },
+                ),
+              ],
+            );
+          },
         ),
       ),
       body: SingleChildScrollView(
