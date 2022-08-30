@@ -4,4 +4,4 @@ import 'package:functional_widget_annotation/functional_widget_annotation.dart';
 part 'empty.g.dart';
 
 @swidget
-Widget empty() => Container();
+Widget empty() => const SizedBox.shrink();

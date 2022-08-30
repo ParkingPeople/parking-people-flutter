@@ -9,7 +9,7 @@ part 'custom_card.g.dart';
 @swidget
 Widget customCard(
   BuildContext context, {
-  String? title,
+  dynamic title,
   Widget? child,
   TransitionBuilder? builder,
   VoidCallback? onTap,
@@ -34,7 +34,7 @@ Widget customCard(
                   (onTap != null && !hideAction))
                 Row(
                   children: [
-                    if (title != null)
+                    if (title is String)
                       Expanded(
                         child: Text(
                           title,
@@ -46,6 +46,7 @@ Widget customCard(
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
+                    if (title is Widget) Expanded(child: title),
                     if (action != null)
                       Text(
                         action,

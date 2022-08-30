@@ -112,6 +112,7 @@ dependencies:
   retrofit: '>=3.0.0 <4.0.0'
   screwdriver: ^3.0.0
   share_plus: ^4.0.10
+  shimmer: ^2.0.0
   simple_timer: ^2.0.0
   sliding_up_panel: ^2.0.0+1
   state_machina:

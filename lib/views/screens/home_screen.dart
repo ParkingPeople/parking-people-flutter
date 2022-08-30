@@ -10,6 +10,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:parking_people_flutter/gen/assets.gen.dart';
 import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/translations.dart';
@@ -17,7 +18,9 @@ import 'package:parking_people_flutter/utils/extensions/list_utils.dart';
 import 'package:parking_people_flutter/utils/globals.dart';
 import 'package:parking_people_flutter/views/components/custom_card.dart';
 import 'package:parking_people_flutter/views/routes/routes.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '/utils/extensions/string_utils.dart';
 
@@ -80,7 +83,7 @@ Widget homeScreen(BuildContext context) {
           ..hideCurrentSnackBar()
           ..showSnackBar(SnackBar(
             content: Text(
-              '장소를 찾을 수 없습니다.',
+              Strings.locationNotFound.i18n,
               style: Theme.of(context).textTheme.bodyText2,
             ),
             backgroundColor: Theme.of(context).dialogBackgroundColor,
@@ -116,7 +119,7 @@ Widget homeScreen(BuildContext context) {
             getLocation();
           }
         } else if (await Permission.location.isPermanentlyDenied) {
-          Fluttertoast.showToast(msg: '위치 권한을 허용해주세요.');
+          Fluttertoast.showToast(msg: Strings.allowLocationAsk.i18n);
           openAppSettings();
         }
       }
@@ -313,32 +316,60 @@ Widget homeScreen(BuildContext context) {
               })(),
             ),
             CustomCard(
-              title: Strings.pointTitle.i18n,
-              action: Strings.pointCharge.i18n,
-              onTap: () {
-                Navigator.of(context).pushNamed(Routes.pointStatus);
+              title: Strings.takePhotoAction.i18n,
+              onTap: () async {
+                final ImagePicker picker = ImagePicker();
+                final XFile? photo = await picker.pickImage(
+                  source: ImageSource.camera,
+                  preferredCameraDevice: CameraDevice.rear,
+                );
+                if (photo != null) {
+                  final appDocDir = await getApplicationDocumentsDirectory();
+                  final now = DateTime.now().millisecondsSinceEpoch;
+                  // final filename = appDocDir.path.endsWith(r'/') ? '$now' : '/$now';
+                  const filename = 'submitPhoto.jpg';
+                  submitPhotoPath = appDocDir.path + filename;
+                  photo.saveTo(submitPhotoPath);
+
+                  Navigator.of(context).pushNamed(Routes.photoSubmissionResult);
+                }
               },
-              child: DefaultTextStyle(
-                style:
-                    (Theme.of(context).textTheme.bodyText2 ?? const TextStyle())
-                        .merge(const TextStyle(fontSize: 13)),
-                child: Row(
-                  children: [
-                    Text(Strings.pointRemaining.i18n),
-                    const Spacer(),
-                    const Text(
-                      '35',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(' ${Strings.pointLiteral.i18n}'),
-                  ],
-                ),
-              ),
             ),
           ]
               .wrapEachPadding(const EdgeInsets.symmetric(horizontal: 24))
               .withSpacer(const Gap(16))
               .toList(),
+        ),
+      ),
+    ),
+  );
+}
+
+@swidget
+Widget skeletonText(
+  BuildContext context,
+  String text, {
+  double? fontSize,
+}) {
+  final defaultTextStyle = Theme.of(context).textTheme.bodyText2;
+
+  final themeFontSize = defaultTextStyle?.fontSize ?? 13;
+
+  final Color textUnderColor = defaultTextStyle?.color ??
+      (Theme.of(context).brightness == Brightness.light
+          ? ColorName.black
+          : Colors.white);
+
+  return Shimmer.fromColors(
+    baseColor: textUnderColor.withOpacity(0.6),
+    highlightColor: textUnderColor.withOpacity(0.8),
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(4),
+      child: SizedBox(
+        width: text.length * themeFontSize,
+        height: themeFontSize,
+        child: const ColoredBox(
+          color: Colors.white,
         ),
       ),
     ),

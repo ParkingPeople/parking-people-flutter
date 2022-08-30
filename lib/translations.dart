@@ -46,6 +46,24 @@ class Strings {
 
   static const navigate = 'navigate';
 
+  static const locationNotFound = 'locationNotFound';
+  static const allowLocationAsk = 'allowLocationAsk';
+
+  static const searchResultEmpty = 'searchResultEmpty';
+
+  static const parkingLotNameSkeleton = 'parkingLotNameSkeleton';
+  static const toDestinationPrefix = 'toDestinationPrefix';
+
+  static const takePhotoAction = 'takePhotoAction';
+
+  static const photoResultTitle = 'photoResultTitle';
+  static const photoResultText = 'photoResultText';
+  static const photoTakenAt = 'photoTakenAt';
+  static const photoCount = 'photoCount';
+  static const photoCountPostfix = 'photoCountPostfix';
+  static const photoState = 'photoState';
+  static const photoAnalysisStateDone = 'photoAnalysisStateDone';
+
   static const _translationMap = {
     appName: {
       ko_kr: '파킹피플',
@@ -109,18 +127,75 @@ class Strings {
     },
     activityLevelFree: {
       ko_kr: '여유',
+      en_us: 'Free',
     },
     activityLevelNormal: {
       ko_kr: '보통',
+      en_us: 'Avg.',
     },
     activityLevelCrowded: {
       ko_kr: '혼잡',
+      en_us: 'Busy',
     },
     activityLevelUnkown: {
       ko_kr: '미상',
+      en_us: 'N/A',
     },
     navigate: {
       ko_kr: '길 안내하기',
+      en_us: 'Navigate',
+    },
+    locationNotFound: {
+      ko_kr: '장소를 찾을 수 없습니다.',
+      en_us: 'Location not found',
+    },
+    allowLocationAsk: {
+      ko_kr: '위치 권한을 허용해주세요.',
+      en_us: 'Please allow location permission',
+    },
+    searchResultEmpty: {
+      ko_kr: '검색결과가 없습니다 :(',
+      en_us: 'There were no parking lot recommendations',
+    },
+    parkingLotNameSkeleton: {
+      ko_kr: '주차장명',
+      en_us: 'Parking Lot',
+    },
+    toDestinationPrefix: {
+      ko_kr: '목적지에서',
+      en_us: 'Distance',
+    },
+    takePhotoAction: {
+      ko_kr: '주차장 사진 촬영하기',
+      en_us: 'Submit photo of parking space',
+    },
+    photoResultTitle: {
+      ko_kr: '사진 제출 결과',
+      en_us: 'Submission Result',
+    },
+    photoResultText: {
+      ko_kr: '제출 완료',
+      en_us: 'Submission completed',
+    },
+    photoTakenAt: {
+      ko_kr: '촬영 일시',
+      en_us: 'Taken at',
+    },
+    photoCount: {
+      ko_kr: '사진 갯수',
+      en_us: 'No. of photos',
+    },
+    photoCountPostfix: {
+      ko_kr: '장',
+      en_us: '',
+    },
+    photoState: {
+      ko_kr: '상태',
+      en_us: 'Status',
+    },
+    photoAnalysisStateDone: {
+      ko_kr: '검토 완료',
+      en_us: 'Analyzed',
     },
   };
 

@@ -8,13 +8,16 @@ import 'package:gap/gap.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 import 'package:parking_people_flutter/gen/assets.gen.dart';
+import 'package:parking_people_flutter/models/enums.dart';
 import 'package:parking_people_flutter/models/parking_lot.dart';
 import 'package:parking_people_flutter/repository/rest_api.dart';
+import 'package:parking_people_flutter/translations.dart';
 import 'package:parking_people_flutter/utils/globals.dart';
 import 'package:parking_people_flutter/views/components/common/empty.dart';
 import 'package:parking_people_flutter/views/components/common_scaffold.dart';
 import 'package:parking_people_flutter/views/components/custom_card.dart';
 import 'package:parking_people_flutter/views/routes/routes.dart';
+import 'package:parking_people_flutter/views/screens/home_screen.dart';
 
 import '/utils/extensions/material_utils.dart';
 import '/utils/extensions/list_utils.dart';
@@ -41,6 +44,8 @@ Widget parkingLotSelectionScreen(BuildContext context) {
 
   final dio = RestClient(Dio());
 
+  final ValueNotifier<bool> parkingLotsLoaded = useState<bool>(false);
+
   useEffectOnce(() {
     CancelableOperation fetch =
         CancelableOperation.fromFuture(dio.getRecommendations(
@@ -50,6 +55,7 @@ Widget parkingLotSelectionScreen(BuildContext context) {
     ));
     fetch.then((response) {
       parkingLots.value = response.parkingLots;
+      parkingLotsLoaded.value = true;
     });
     return () {
       fetch.cancel();
@@ -117,70 +123,139 @@ Widget parkingLotSelectionScreen(BuildContext context) {
           ],
         ),
       ),
-      ...parkingLots.value.map(
-        (parkingLot) => CustomCard(
-          hideAction: true,
-          onTap: () {
-            Navigator.of(context).pushNamed(
-              Routes.locationDetail,
-              arguments: {'parkingLot': parkingLot},
-            );
-          },
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      parkingLot.name,
-                      style: const TextStyle(
-                        fontSize: 17,
-                      ),
-                    ),
-                    if (parkingLot.distanceToDes != null)
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            '목적지에서',
-                            style: TextStyle(
-                              fontSize: 13,
-                            ),
-                          ),
-                          const Gap(8),
-                          Text(
-                            '${parkingLot.distanceToDes}m',
-                            style: const TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                  ].withSpacer(const Gap(8)).toList(),
-                ),
-              ),
-              const Gap(8),
-              SizedBox.square(
-                dimension: 70,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: parkingLot.activityLevel.displayColor,
-                  ),
-                  child: Center(
-                    child: Text(parkingLot.activityLevel.translate),
-                  ),
-                ),
-              ),
-            ],
+      if (parkingLotsLoaded.value && parkingLots.value.isNotEmpty)
+        ...parkingLots.value
+            .map((parkingLot) => ParkingLotCard(parkingLot: parkingLot)),
+      if (parkingLotsLoaded.value && parkingLots.value.isEmpty)
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(Strings.searchResultEmpty.i18n),
           ),
         ),
-      ),
+      if (!parkingLotsLoaded.value)
+        ...List.filled(3, const ParkingLotSkeleton()),
       const Empty(),
     ],
+  );
+}
+
+@swidget
+Widget parkingLotSkeleton(BuildContext context) {
+  return CustomCard(
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SkeletonText(
+                Strings.parkingLotNameSkeleton.i18n,
+                fontSize: 17,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    Strings.toDestinationPrefix.i18n,
+                    style: const TextStyle(
+                      fontSize: 13,
+                    ),
+                  ),
+                  const Gap(8),
+                  const Text(
+                    '- m',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ].withSpacer(const Gap(8)).toList(),
+          ),
+        ),
+        const Gap(8),
+        SizedBox.square(
+          dimension: 70,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: ActivityLevel.UNKNOWN.displayColor,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+@swidget
+Widget parkingLotCard(
+  BuildContext context, {
+  required ParkingLot parkingLot,
+}) {
+  return CustomCard(
+    hideAction: true,
+    onTap: () {
+      Navigator.of(context).pushNamed(
+        Routes.locationDetail,
+        arguments: {'parkingLot': parkingLot},
+      );
+    },
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                parkingLot.name,
+                style: const TextStyle(
+                  fontSize: 17,
+                ),
+              ),
+              if (parkingLot.distanceToDes != null)
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      Strings.toDestinationPrefix.i18n,
+                      style: const TextStyle(
+                        fontSize: 13,
+                      ),
+                    ),
+                    const Gap(8),
+                    Text(
+                      '${parkingLot.distanceToDes}m',
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+            ].withSpacer(const Gap(8)).toList(),
+          ),
+        ),
+        const Gap(8),
+        SizedBox.square(
+          dimension: 70,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: parkingLot.activityLevel.displayColor,
+            ),
+            child: Center(
+              child: Text(parkingLot.activityLevel.translate),
+            ),
+          ),
+        ),
+      ],
+    ),
   );
 }

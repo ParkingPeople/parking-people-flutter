@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
 import 'package:gap/gap.dart';
 import 'package:parking_people_flutter/gen/colors.gen.dart';
+import 'package:parking_people_flutter/translations.dart';
 import 'package:parking_people_flutter/utils/globals.dart';
 import 'package:parking_people_flutter/views/components/common/empty.dart';
 import 'package:parking_people_flutter/views/components/common_badge.dart';
@@ -15,7 +16,7 @@ part 'submit_result_screen.g.dart';
 @swidget
 Widget submitResultScreen(BuildContext context) {
   return CommonScaffold(
-    title: '사진 제출 결과',
+    title: Strings.photoResultTitle.i18n,
     actions: [
       IconButton(
         icon: const Icon(Icons.home_rounded),
@@ -25,9 +26,9 @@ Widget submitResultScreen(BuildContext context) {
       ),
     ],
     children: [
-      const Text(
-        '20 포인트를 획득했어요.',
-        style: TextStyle(
+      Text(
+        Strings.photoResultText.i18n,
+        style: const TextStyle(
           color: ColorName.blue,
           fontWeight: FontWeight.bold,
           fontSize: 20,
@@ -81,35 +82,37 @@ Widget submitResultScreen(BuildContext context) {
             },
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             children: [
-              const TableRow(
+              TableRow(
                 children: [
-                  Text('촬영 일시'),
-                  Empty(),
-                  Text('2022. 08. 14 오전 11:26'),
+                  Text(Strings.photoTakenAt.i18n),
+                  const Empty(),
+                  const Text('2022. 08. 14 오전 11:26'),
                 ],
               ),
-              const TableRow(
+              // const TableRow(
+              //   children: [
+              //     Text('주차 위치'),
+              //     Empty(),
+              //     Text('D4'),
+              //   ],
+              // ),
+              TableRow(
                 children: [
-                  Text('주차 위치'),
-                  Empty(),
-                  Text('D4'),
-                ],
-              ),
-              const TableRow(
-                children: [
-                  Text('사진 갯수'),
-                  Empty(),
-                  Text('4장'),
+                  Text(Strings.photoCount.i18n),
+                  const Empty(),
+                  Text('1${Strings.photoCountPostfix.i18n}'),
                 ],
               ),
               TableRow(
                 children: [
-                  const Text('상태'),
+                  Text(Strings.photoState.i18n),
                   const Empty(),
                   Row(
-                    children: const [
-                      CommonBadge(color: ColorName.blue, content: '검토 완료'),
-                      Spacer(),
+                    children: [
+                      CommonBadge(
+                          color: ColorName.blue,
+                          content: Strings.photoAnalysisStateDone.i18n),
+                      const Spacer(),
                     ],
                   ),
                 ],
