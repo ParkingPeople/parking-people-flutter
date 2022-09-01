@@ -1,4 +1,8 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_naver_map/flutter_naver_map.dart';
+import 'package:flutter_use/flutter_use.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
 import 'package:gap/gap.dart';
 import 'package:parking_people_flutter/gen/assets.gen.dart';
@@ -12,10 +16,25 @@ import '/utils/extensions/material_utils.dart';
 
 part 'parking_lot_detail_screen.g.dart';
 
-@swidget
+@hwidget
 Widget parkingLotDetailScreen(BuildContext context) {
   final args = context.routeArguments;
   final ParkingLot parkingLot = args['parkingLot'];
+
+  final ValueNotifier<OverlayImage?> parkingPinIcon =
+      useState<OverlayImage?>(null);
+
+  useMount(() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      OverlayImage.fromAssetImage(
+        assetName: Assets.images.parking.path,
+      ).then(
+        (value) {
+          parkingPinIcon.value = value;
+        },
+      );
+    });
+  });
 
   return CommonScaffold(
     title: parkingLot.name,
@@ -30,17 +49,28 @@ Widget parkingLotDetailScreen(BuildContext context) {
     children: [
       AspectRatio(
         aspectRatio: 16 / 9,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Assets.images.parkingLotSample.image(fit: BoxFit.cover),
-            Positioned(
-              right: 8,
-              bottom: 8,
-              child: CommonBadge(
-                color: parkingLot.activityLevel.displayColor,
-                content: parkingLot.activityLevel.translate,
-              ),
+        child: NaverMap(
+          initialCameraPosition: CameraPosition(
+            target: LatLng(parkingLot.latitude, parkingLot.longitude),
+          ),
+          onMapCreated: (controller) async {
+            await controller.getCameraPosition();
+            controller.moveCamera(CameraUpdate.zoomTo(7));
+          },
+          mapType: MapType.Navi,
+          tiltGestureEnable: false,
+          zoomGestureEnable: false,
+          rotationGestureEnable: false,
+          scrollGestureEnable: false,
+          nightModeEnable:
+              AdaptiveTheme.of(context).brightness == Brightness.dark,
+          markers: [
+            Marker(
+              markerId: 'parkingLot',
+              position: LatLng(parkingLot.latitude, parkingLot.longitude),
+              width: 20,
+              height: 20,
+              icon: parkingPinIcon.value,
             ),
           ],
         ),
@@ -71,12 +101,12 @@ Widget parkingLotDetailScreen(BuildContext context) {
           ),
         ),
       ),
-      const Text(
-        '소형',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      // const Text(
+      //   '소형',
+      //   style: TextStyle(
+      //     fontWeight: FontWeight.bold,
+      //   ),
+      // ),
       Row(
         children: [
           CommonBadge(
@@ -84,9 +114,24 @@ Widget parkingLotDetailScreen(BuildContext context) {
             content: '기본 요금',
           ),
           const Gap(8),
-          const Expanded(
+          Expanded(
             child: Text(
-              '30분 9000원, 추가 10분 300원',
+              _getFeeText(parkingLot),
+              overflow: TextOverflow.fade,
+            ),
+          ),
+        ],
+      ),
+      Row(
+        children: [
+          CommonBadge(
+            color: ColorName.blue.withOpacity(0.4),
+            content: '정기 요금',
+          ),
+          const Gap(8),
+          Expanded(
+            child: Text(
+              _getRoutineFeeText(parkingLot),
               overflow: TextOverflow.fade,
             ),
           ),
@@ -94,8 +139,8 @@ Widget parkingLotDetailScreen(BuildContext context) {
       ),
       TextButton(
         style: TextButton.styleFrom(
+          foregroundColor: Colors.white,
           backgroundColor: ColorName.blue,
-          primary: Colors.white,
           padding: const EdgeInsets.symmetric(vertical: 12),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -112,4 +157,37 @@ Widget parkingLotDetailScreen(BuildContext context) {
       ),
     ],
   );
+}
+
+String _getRoutineFeeText(ParkingLot parkingLot) {
+  final baseFee = parkingLot.baseFee ?? 0,
+      baseFeeDuration = parkingLot.baseFeeDuration?.inMinutes ?? 0,
+      extraFee = parkingLot.extraFee ?? 0,
+      extraFeeDuration = parkingLot.extraFeeDuration?.inMinutes ?? 0;
+
+  if (baseFee == 0 && extraFee == 0) {
+    return '무료';
+  }
+
+  if (baseFee == 0 && extraFee != 0) {
+    return '$baseFeeDuration분 무료, 이후 $extraFeeDuration분당 $extraFee원';
+  }
+
+  if (extraFee == 0 ||
+      (baseFee == extraFee && baseFeeDuration == extraFeeDuration)) {
+    return '$baseFeeDuration분당 $baseFee원';
+  }
+
+  return '$baseFeeDuration분 $baseFee원, 이후 $extraFeeDuration분당 $extraFee원';
+}
+
+String _getFeeText(ParkingLot parkingLot) {
+  final dailyFee = parkingLot.dailyFee, monthlyFee = parkingLot.monthlyFee;
+
+  final dailyFeePart = dailyFee == null ? '' : '일주차 $dailyFee원';
+  final monthlyFeePart = monthlyFee == null ? '' : '월주차 $monthlyFee원';
+
+  return [dailyFeePart, monthlyFeePart]
+      .where((part) => part.isNotEmpty)
+      .join(', ');
 }

@@ -65,6 +65,7 @@ dependencies:
   flutter_keyboard_visibility: ^5.2.0
   flutter_local_notifications: ^9.7.0
   flutter_native_splash: ^2.2.7
+  flutter_naver_map: ^0.10.5
   flutter_phoenix: ^1.0.0
   flutter_portal: ^1.1.1
   flutter_scroll_to_top: ^2.2.4
@@ -97,10 +98,8 @@ dependencies:
   mask_text_input_formatter: ^2.4.0
   measurer: ^2.1.1
   # native_updater: ^0.1.1
-  naver_map_plugin:
-    git:
-      url: https://github.com/qb20nh/naver_map_plugin.git
-      ref: master
+  # naver_map_plugin:
+  #   git: https://github.com/LBSTECH/naver_map_plugin.git
   octo_image: ^1.0.2
   package_info_plus: ^1.4.3
   path_provider: ^2.0.11

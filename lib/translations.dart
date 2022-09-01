@@ -64,6 +64,10 @@ class Strings {
   static const photoState = 'photoState';
   static const photoAnalysisStateDone = 'photoAnalysisStateDone';
 
+  static const parkingLotType_parkingLot = 'parkingLotType_PARKING_LOT';
+  static const parkingLotType_building = 'parkingLotType_BUILDING';
+  static const parkingLotType_street = 'parkingLotType_STREET';
+
   static const _translationMap = {
     appName: {
       ko_kr: '파킹피플',
