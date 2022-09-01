@@ -68,6 +68,10 @@ class Strings {
   static const parkingLotType_building = 'parkingLotType_BUILDING';
   static const parkingLotType_street = 'parkingLotType_STREET';
 
+  static const about = 'about';
+
+  static const settings = 'settings';
+
   static const _translationMap = {
     appName: {
       ko_kr: '파킹피플',
@@ -200,6 +204,14 @@ class Strings {
     photoAnalysisStateDone: {
       ko_kr: '검토 완료',
       en_us: 'Analyzed',
+    },
+    about: {
+      ko_kr: '정보',
+      en_us: 'About',
+    },
+    settings: {
+      ko_kr: '설정',
+      en_us: 'Settings',
     },
   };
 

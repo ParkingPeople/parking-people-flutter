@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_use/flutter_use.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
 
@@ -162,39 +161,25 @@ Widget homeScreen(BuildContext context) {
             return ListView(
               padding: EdgeInsets.zero,
               children: [
-                const DrawerHeader(
-                  decoration: BoxDecoration(
+                DrawerHeader(
+                  decoration: const BoxDecoration(
                     color: ColorName.blue,
                   ),
-                  child: Text(
-                    'Drawer Header',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.notifications_rounded),
-                  title: const Text('Alerts'),
-                  onTap: () {
-                    Fluttertoast.showToast(msg: 'Alerts item tapped');
-                    Scaffold.of(context).closeEndDrawer();
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.account_circle_rounded),
-                  title: const Text('Profile'),
-                  onTap: () {
-                    Fluttertoast.showToast(msg: 'Profile item tapped');
-                    Scaffold.of(context).closeEndDrawer();
-                  },
+                  child: Assets.images.splashTitle.svg(),
                 ),
                 ListTile(
                   leading: const Icon(Icons.settings_rounded),
-                  title: const Text('Settings'),
+                  title: Text(Strings.settings.i18n),
                   onTap: () {
-                    Fluttertoast.showToast(msg: 'Settings item tapped');
+                    Fluttertoast.showToast(msg: 'Go to settings');
+                    Scaffold.of(context).closeEndDrawer();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.info_rounded),
+                  title: Text(Strings.about.i18n),
+                  onTap: () {
+                    Fluttertoast.showToast(msg: 'Go to about');
                     Scaffold.of(context).closeEndDrawer();
                   },
                 ),

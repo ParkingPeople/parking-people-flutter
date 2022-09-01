@@ -15,7 +15,6 @@ import 'package:parking_people_flutter/models/parking_lot.dart';
 import 'package:parking_people_flutter/translations.dart';
 import 'package:parking_people_flutter/views/components/common_badge.dart';
 import 'package:parking_people_flutter/views/components/common_scaffold.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '/utils/extensions/material_utils.dart';
@@ -225,9 +224,10 @@ Widget parkingLotDetailScreen(BuildContext context) {
             await NaviApi.instance.navigate(
               destination: Location(
                 name: parkingLot.name,
-                x: parkingLot.latitude.toString(),
-                y: parkingLot.longitude.toString(),
+                x: parkingLot.longitude.toString(),
+                y: parkingLot.latitude.toString(),
               ),
+              option: NaviOption(coordType: CoordType.wgs84),
             );
           } else {
             launchUrlString(
