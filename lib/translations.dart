@@ -90,8 +90,8 @@ class Strings {
       en_us: 'Login with Google',
     },
     registerMail: {
-      ko_kr: '회원가입 하기',
-      en_us: 'Register',
+      ko_kr: '시작하기',
+      en_us: 'Begin',
     },
     searchTitle: {
       ko_kr: '목적지를 알려주세요',

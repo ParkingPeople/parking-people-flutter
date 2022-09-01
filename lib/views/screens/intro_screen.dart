@@ -38,14 +38,14 @@ Widget introScreen(BuildContext context) {
               ),
             ),
             const Spacer(flex: 2),
-            KakaoLoginButton(onTap: () {
-              defaultLogger.i('Kakao login');
-              _navigateToNextScreen(context);
-            }),
-            GoogleLoginButton(onTap: () {
-              defaultLogger.i('Google login');
-              _navigateToNextScreen(context);
-            }),
+            // KakaoLoginButton(onTap: () {
+            //   defaultLogger.i('Kakao login');
+            //   _navigateToNextScreen(context);
+            // }),
+            // GoogleLoginButton(onTap: () {
+            //   defaultLogger.i('Google login');
+            //   _navigateToNextScreen(context);
+            // }),
             const Gap(16),
             RegisterButton(onTap: () {
               defaultLogger.i('Register');
