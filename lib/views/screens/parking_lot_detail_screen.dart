@@ -13,6 +13,7 @@ import 'package:parking_people_flutter/gen/assets.gen.dart';
 import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/models/parking_lot.dart';
 import 'package:parking_people_flutter/translations.dart';
+import 'package:parking_people_flutter/utils/globals.dart';
 import 'package:parking_people_flutter/views/components/common_badge.dart';
 import 'package:parking_people_flutter/views/components/common_scaffold.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -25,6 +26,8 @@ part 'parking_lot_detail_screen.g.dart';
 Widget parkingLotDetailScreen(BuildContext context) {
   final args = context.routeArguments;
   final ParkingLot parkingLot = args['parkingLot'];
+
+  lastVisitedId = parkingLot.id ?? -1;
 
   final ValueNotifier<OverlayImage?> parkingPinIcon =
       useState<OverlayImage?>(null);

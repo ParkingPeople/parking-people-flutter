@@ -46,16 +46,15 @@ Widget parkingLotSelectionScreen(BuildContext context) {
   final ValueNotifier<bool> parkingLotsLoaded = useState<bool>(false);
 
   useEffectOnce(() {
-    CancelableOperation fetch =
-        CancelableOperation.fromFuture(dio.getRecommendations(
+    final fetch = CancelableOperation.fromFuture(dio.getRecommendations(
       lat: location.latitude,
       lng: location.longitude,
       rangeInKm: 1,
-    ));
-    fetch.then((response) {
-      parkingLots.value = response.parkingLots;
-      parkingLotsLoaded.value = true;
-    });
+    ))
+      ..then((response) {
+        parkingLots.value = response.parkingLots;
+        parkingLotsLoaded.value = true;
+      });
     return () {
       fetch.cancel();
     };

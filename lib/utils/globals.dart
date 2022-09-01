@@ -6,3 +6,5 @@ final defaultLogger = Logger();
 final globalNavigatorKey = GlobalKey<NavigatorState>();
 
 late String submitPhotoPath;
+
+int lastVisitedId = -1;

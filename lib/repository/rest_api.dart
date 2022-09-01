@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:parking_people_flutter/models/api_response.dart';
 import 'package:retrofit/retrofit.dart';
@@ -14,5 +16,12 @@ abstract class RestClient {
     @Query("lat") required double lat,
     @Query("lon") required double lng,
     @Query("range") required double rangeInKm,
+  });
+
+  @POST("/upload/file")
+  @MultiPart()
+  Future<bool> uploadFile({
+    @Part(name: "id") required int id,
+    @Part(name: "file") required File file,
   });
 }

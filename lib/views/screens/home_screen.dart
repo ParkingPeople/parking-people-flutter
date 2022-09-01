@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -316,7 +317,10 @@ Widget homeScreen(BuildContext context) {
                   submitPhotoPath = appDocDir.path + filename;
                   photo.saveTo(submitPhotoPath);
 
-                  Navigator.of(context).pushNamed(Routes.photoSubmissionResult);
+                  File file = File(submitPhotoPath);
+
+                  Navigator.of(context).pushNamed(Routes.photoSubmissionResult,
+                      arguments: {'file': file});
                 }
               },
             ),
