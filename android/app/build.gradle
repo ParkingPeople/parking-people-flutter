@@ -48,6 +48,14 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "app.parkingpeople.flutter"
@@ -59,21 +67,15 @@ android {
         compileSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-    }
 
-    signingConfigs {
-        release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
-        }
+        signingConfig signingConfigs.release
+        multiDexKeepFile file('multidex-config.txt')
     }
     buildTypes {
-        release {
-            signingConfig signingConfigs.release
-            multiDexKeepFile file('multidex-config.txt')
-        }
+        // release {
+        //     signingConfig signingConfigs.release
+        //     multiDexKeepFile file('multidex-config.txt')
+        // }
     }
 }
 
