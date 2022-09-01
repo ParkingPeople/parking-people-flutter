@@ -82,13 +82,14 @@ Widget parkingLotDetailScreen(BuildContext context) {
           nightModeEnable:
               AdaptiveTheme.of(context).brightness == Brightness.dark,
           markers: [
-            Marker(
-              markerId: 'parkingLot',
-              position: LatLng(parkingLot.latitude, parkingLot.longitude),
-              width: 20,
-              height: 20,
-              icon: parkingPinIcon.value,
-            ),
+            if (parkingPinIcon.value != null)
+              Marker(
+                markerId: 'parkingLot',
+                position: LatLng(parkingLot.latitude, parkingLot.longitude),
+                width: 20,
+                height: 20,
+                icon: parkingPinIcon.value,
+              ),
           ],
         ),
       ),

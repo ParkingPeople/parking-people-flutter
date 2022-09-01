@@ -105,20 +105,22 @@ Widget parkingLotSelectionScreen(BuildContext context) {
           nightModeEnable:
               AdaptiveTheme.of(context).brightness == Brightness.dark,
           markers: [
-            Marker(
-              markerId: 'mylocation',
-              position: LatLng(location.latitude, location.longitude),
-              width: 20,
-              height: 20,
-              icon: targetPinIcon.value,
-            ),
-            ...parkingLots.value.map((parkingLot) => Marker(
-                  markerId: parkingLot.name,
-                  position: LatLng(parkingLot.latitude, parkingLot.longitude),
-                  width: 20,
-                  height: 20,
-                  icon: parkingPinIcon.value,
-                )),
+            if (targetPinIcon.value != null)
+              Marker(
+                markerId: 'mylocation',
+                position: LatLng(location.latitude, location.longitude),
+                width: 20,
+                height: 20,
+                icon: targetPinIcon.value,
+              ),
+            if (parkingPinIcon.value != null)
+              ...parkingLots.value.map((parkingLot) => Marker(
+                    markerId: parkingLot.name,
+                    position: LatLng(parkingLot.latitude, parkingLot.longitude),
+                    width: 20,
+                    height: 20,
+                    icon: parkingPinIcon.value,
+                  )),
           ],
         ),
       ),
