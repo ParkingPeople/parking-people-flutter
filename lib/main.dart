@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk_template.dart';
 import 'package:parking_people_flutter/parking_people_app.dart';
 
 void main() {
@@ -33,4 +34,5 @@ void main() {
 
 Future<void> init() async {
   // do some stuffs
+  KakaoSdk.init(nativeAppKey: '18020f566d5e17cbc29cd223965cd435');
 }

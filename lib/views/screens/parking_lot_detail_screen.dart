@@ -8,6 +8,7 @@ import 'package:flutter_use/flutter_use.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
 import 'package:gap/gap.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk_navi.dart';
 import 'package:parking_people_flutter/gen/assets.gen.dart';
 import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/models/parking_lot.dart';
@@ -218,9 +219,20 @@ Widget parkingLotDetailScreen(BuildContext context) {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        onPressed: () {
-          launchUrlString(
-              'geo:${parkingLot.latitude},${parkingLot.longitude}?q=${parkingLot.name}');
+        onPressed: () async {
+          bool result = await NaviApi.instance.isKakaoNaviInstalled();
+          if (result) {
+            await NaviApi.instance.navigate(
+              destination: Location(
+                name: parkingLot.name,
+                x: parkingLot.latitude.toString(),
+                y: parkingLot.longitude.toString(),
+              ),
+            );
+          } else {
+            launchUrlString(
+                'geo:${parkingLot.latitude},${parkingLot.longitude}?q=${parkingLot.name}');
+          }
         },
         child: Text(
           Strings.navigate.i18n,
