@@ -1,8 +1,11 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:clipboard/clipboard.dart';
+import 'package:dart_numerics/dart_numerics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_use/flutter_use.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
 import 'package:gap/gap.dart';
 import 'package:parking_people_flutter/gen/assets.gen.dart';
@@ -11,6 +14,8 @@ import 'package:parking_people_flutter/models/parking_lot.dart';
 import 'package:parking_people_flutter/translations.dart';
 import 'package:parking_people_flutter/views/components/common_badge.dart';
 import 'package:parking_people_flutter/views/components/common_scaffold.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '/utils/extensions/material_utils.dart';
 
@@ -36,6 +41,16 @@ Widget parkingLotDetailScreen(BuildContext context) {
     });
   });
 
+  final defaultTextStyle = Theme.of(context).textTheme.bodyText2?.merge(
+        const TextStyle(
+          fontSize: 19,
+        ),
+      );
+
+  final chipColor =
+      Color.lerp(ColorName.blue, Theme.of(context).backgroundColor, 0.6) ??
+          ColorName.blue;
+
   return CommonScaffold(
     title: parkingLot.name,
     actions: [
@@ -54,8 +69,10 @@ Widget parkingLotDetailScreen(BuildContext context) {
             target: LatLng(parkingLot.latitude, parkingLot.longitude),
           ),
           onMapCreated: (controller) async {
-            await controller.getCameraPosition();
-            controller.moveCamera(CameraUpdate.zoomTo(7));
+            controller.getMeterPerDp();
+            const targetCellSize = 100;
+            final zoomLevel = 7 * (3 - log10(targetCellSize / 2) / 2);
+            controller.moveCamera(CameraUpdate.zoomTo(zoomLevel));
           },
           mapType: MapType.Navi,
           tiltGestureEnable: false,
@@ -75,20 +92,74 @@ Widget parkingLotDetailScreen(BuildContext context) {
           ],
         ),
       ),
-      const Text(
-        '상세 주소',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
+      if (parkingLot.address is String) ...[
+        const Text(
+          '주소',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
-      const Text('부산시 강서구 공항앞길 126 우리 주차장'),
-      const Text(
-        '전화번호',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
+        GestureDetector(
+          onTap: () async {
+            await FlutterClipboard.copy(parkingLot.address ?? '');
+            Fluttertoast.showToast(msg: '주소가 클립보드에 복사됨');
+          },
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: parkingLot.address ?? '',
+                  style: defaultTextStyle?.merge(
+                    const TextStyle(
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+                TextSpan(text: ' ', style: defaultTextStyle),
+                const WidgetSpan(
+                    child: Icon(
+                  Icons.copy_rounded,
+                  size: 19,
+                )),
+              ],
+            ),
+          ),
         ),
-      ),
-      const Text('051-972-4400'),
+      ],
+      if (parkingLot.contact is String) ...[
+        const Text(
+          '전화번호',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        GestureDetector(
+          onTap: () async {
+            launchUrlString('tel:${parkingLot.contact ?? ''}');
+          },
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: parkingLot.contact ?? '',
+                  style: defaultTextStyle?.merge(
+                      const TextStyle(decoration: TextDecoration.underline)),
+                ),
+                TextSpan(
+                  text: ' ',
+                  style: defaultTextStyle,
+                ),
+                const WidgetSpan(
+                  child: Icon(
+                    Icons.phone_rounded,
+                    size: 19,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
       const Divider(
         height: 15,
         thickness: 15,
@@ -110,7 +181,7 @@ Widget parkingLotDetailScreen(BuildContext context) {
       Row(
         children: [
           CommonBadge(
-            color: ColorName.blue.withOpacity(0.4),
+            color: chipColor,
             content: '기본 요금',
           ),
           const Gap(8),
@@ -125,7 +196,7 @@ Widget parkingLotDetailScreen(BuildContext context) {
       Row(
         children: [
           CommonBadge(
-            color: ColorName.blue.withOpacity(0.4),
+            color: chipColor,
             content: '정기 요금',
           ),
           const Gap(8),
@@ -146,7 +217,10 @@ Widget parkingLotDetailScreen(BuildContext context) {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          launchUrlString(
+              'geo:${parkingLot.latitude},${parkingLot.longitude}?q=${parkingLot.name}');
+        },
         child: Text(
           Strings.navigate.i18n,
           style: const TextStyle(
@@ -159,7 +233,7 @@ Widget parkingLotDetailScreen(BuildContext context) {
   );
 }
 
-String _getRoutineFeeText(ParkingLot parkingLot) {
+String _getFeeText(ParkingLot parkingLot) {
   final baseFee = parkingLot.baseFee ?? 0,
       baseFeeDuration = parkingLot.baseFeeDuration?.inMinutes ?? 0,
       extraFee = parkingLot.extraFee ?? 0,
@@ -181,7 +255,7 @@ String _getRoutineFeeText(ParkingLot parkingLot) {
   return '$baseFeeDuration분 $baseFee원, 이후 $extraFeeDuration분당 $extraFee원';
 }
 
-String _getFeeText(ParkingLot parkingLot) {
+String _getRoutineFeeText(ParkingLot parkingLot) {
   final dailyFee = parkingLot.dailyFee, monthlyFee = parkingLot.monthlyFee;
 
   final dailyFeePart = dailyFee == null ? '' : '일주차 $dailyFee원';
