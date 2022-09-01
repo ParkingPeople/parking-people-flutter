@@ -53,3 +53,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+.gitsecret/keys/random_seed
+!*.secret
+android/fastlane/play_console_api_key.json
