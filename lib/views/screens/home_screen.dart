@@ -43,6 +43,8 @@ Widget homeScreen(BuildContext context) {
 
   final focusNode = useFocusNode();
 
+  final isMounted = useIsMounted();
+
   void gotoNextScreen({
     required String address,
     Position? position,
@@ -71,23 +73,27 @@ Widget homeScreen(BuildContext context) {
         );
       }
       if (finalPosition != null) {
-        await Navigator.of(context).pushNamed(
-          Routes.searchResult,
-          arguments: {
-            'address': address,
-            'location': finalPosition,
-          },
-        );
+        if (isMounted()) {
+          await Navigator.of(context).pushNamed(
+            Routes.searchResult,
+            arguments: {
+              'address': address,
+              'location': finalPosition,
+            },
+          );
+        }
       } else {
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(SnackBar(
-            content: Text(
-              Strings.locationNotFound.i18n,
-              style: Theme.of(context).textTheme.bodyText2,
-            ),
-            backgroundColor: Theme.of(context).dialogBackgroundColor,
-          ));
+        if (isMounted()) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+              content: Text(
+                Strings.locationNotFound.i18n,
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+              backgroundColor: Theme.of(context).dialogBackgroundColor,
+            ));
+        }
       }
       isLoadingPosition.value = false;
     } else {
@@ -107,24 +113,18 @@ Widget homeScreen(BuildContext context) {
     }
   }
 
-  final int builds = useBuildsCount();
-  if (builds == 1) {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (await Permission.location.isGranted) {
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    if (await Permission.location.isGranted) {
+      getLocation();
+    } else {
+      if (await Permission.location.request().isGranted) {
         getLocation();
       } else {
-        if (await Permission.location.shouldShowRequestRationale) {
-          if (await Permission.location.request().isGranted &&
-              await Permission.location.serviceStatus.isEnabled) {
-            getLocation();
-          }
-        } else if (await Permission.location.isPermanentlyDenied) {
-          Fluttertoast.showToast(msg: Strings.allowLocationAsk.i18n);
-          openAppSettings();
-        }
+        Fluttertoast.showToast(msg: Strings.allowLocationAsk.i18n);
+        openAppSettings();
       }
-    });
-  }
+    }
+  });
 
   return WillPopScope(
     onWillPop: () async {
@@ -252,8 +252,8 @@ Widget homeScreen(BuildContext context) {
                             builder: (context, isLoading, child) {
                               return TextButton(
                                 style: TextButton.styleFrom(
+                                  foregroundColor: Colors.white,
                                   backgroundColor: ColorName.blue,
-                                  primary: Colors.white,
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 12),
                                   shape: RoundedRectangleBorder(
