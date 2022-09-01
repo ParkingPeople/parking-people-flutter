@@ -14,3 +14,6 @@ repo:
   name: Hide git secret before commit
   language: system
   entry: git secret hide
+  always_run: true
+  fail_fast: true
+  verbose: true
