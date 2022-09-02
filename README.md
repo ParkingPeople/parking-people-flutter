@@ -21,3 +21,9 @@ Remove previous installations(when stuck with installing)
 Run
 
 `flutter run`
+
+## Other tools
+
+### Fastlane
+
+### git-secret
