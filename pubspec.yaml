@@ -91,6 +91,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  intl: ^0.17.0
   i18n_extension: ^5.0.0
   icons_launcher: ^2.0.2
   image_picker: ^0.8.5+3

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_use/flutter_use.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 import 'package:parking_people_flutter/gen/assets.gen.dart';
 import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/repository/rest_api.dart';
@@ -16,6 +17,7 @@ import 'package:parking_people_flutter/utils/extensions/material_utils.dart';
 import 'package:parking_people_flutter/views/components/common/empty.dart';
 import 'package:parking_people_flutter/views/components/common_badge.dart';
 import 'package:parking_people_flutter/views/components/common_scaffold.dart';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 part 'submit_result_screen.g.dart';
@@ -24,13 +26,15 @@ part 'submit_result_screen.g.dart';
 Widget submitResultScreen(BuildContext context) {
   final args = context.routeArguments;
 
+  final File file = args['file'];
+
   final dio = RestClient(Dio());
 
   if (!isDemoMode) {
     useEffectOnce(() {
       final fetch = CancelableOperation.fromFuture(dio.uploadFile(
         id: lastVisitedId,
-        file: args['file'],
+        file: file,
       ))
         ..then((response) {
           if (response) {
@@ -47,9 +51,11 @@ Widget submitResultScreen(BuildContext context) {
   }
 
   final image = isDemoMode
-      ? Assets.images.parkingLotSample.image()
+      ? Assets.images.parkingLotSample.image(
+          fit: BoxFit.cover,
+        )
       : Image.file(
-          File(submitPhotoPath),
+          file,
           fit: BoxFit.cover,
         );
 
@@ -118,7 +124,16 @@ Widget submitResultScreen(BuildContext context) {
                 children: [
                   Text(Strings.photoTakenAt.i18n),
                   const Empty(),
-                  const Text('2022. 08. 14 오전 11:26'),
+                  FutureBuilder<DateTime>(
+                      future: file.lastModified(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final DateFormat formatter =
+                              DateFormat.yMd(Platform.localeName).add_jm();
+                          return Text(formatter.format(snapshot.data!));
+                        }
+                        return const Empty();
+                      }),
                 ],
               ),
               // const TableRow(

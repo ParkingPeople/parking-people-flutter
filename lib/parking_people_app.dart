@@ -1,4 +1,5 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
@@ -8,12 +9,13 @@ import 'package:parking_people_flutter/gen/fonts.gen.dart';
 import 'package:parking_people_flutter/utils/globals.dart';
 import 'package:parking_people_flutter/views/screens/splash_screen.dart';
 import 'package:parking_people_flutter/views/routes/routes.dart';
-import 'package:parking_people_flutter/views/screens/intro_screen.dart';
 
 part 'parking_people_app.g.dart';
 
 @swidget
 Widget parkingPeopleApp(BuildContext context) {
+  const bool shouldShowDebugUi = kDebugMode && !isDemoMode;
+
   return AdaptiveTheme(
     initial: AdaptiveThemeMode.system,
     light: ThemeData(
@@ -56,6 +58,8 @@ Widget parkingPeopleApp(BuildContext context) {
       ),
       theme: light,
       darkTheme: dark,
+      debugShowCheckedModeBanner: shouldShowDebugUi,
+      debugShowMaterialGrid: shouldShowDebugUi,
     ),
   );
 }
