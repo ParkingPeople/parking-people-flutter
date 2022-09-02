@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_use/flutter_use.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
 import 'package:gap/gap.dart';
+import 'package:parking_people_flutter/gen/assets.gen.dart';
 import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/repository/rest_api.dart';
 import 'package:parking_people_flutter/translations.dart';
@@ -25,23 +26,32 @@ Widget submitResultScreen(BuildContext context) {
 
   final dio = RestClient(Dio());
 
-  useEffectOnce(() {
-    final fetch = CancelableOperation.fromFuture(dio.uploadFile(
-      id: lastVisitedId,
-      file: args['file'],
-    ))
-      ..then((response) {
-        if (response) {
-          // success
-        } else {
-          // error
-        }
-      });
+  if (!isDemoMode) {
+    useEffectOnce(() {
+      final fetch = CancelableOperation.fromFuture(dio.uploadFile(
+        id: lastVisitedId,
+        file: args['file'],
+      ))
+        ..then((response) {
+          if (response) {
+            // success
+          } else {
+            // error
+          }
+        });
 
-    return () {
-      fetch.cancel();
-    };
-  });
+      return () {
+        fetch.cancel();
+      };
+    });
+  }
+
+  final image = isDemoMode
+      ? Assets.images.parkingLotSample.image()
+      : Image.file(
+          File(submitPhotoPath),
+          fit: BoxFit.cover,
+        );
 
   return CommonScaffold(
     title: Strings.photoResultTitle.i18n,
@@ -79,10 +89,7 @@ Widget submitResultScreen(BuildContext context) {
               fit: StackFit.expand,
               clipBehavior: Clip.hardEdge,
               children: [
-                Image.file(
-                  File(submitPhotoPath),
-                  fit: BoxFit.cover,
-                ),
+                image,
                 ClipRect(
                   child: BackdropFilter(
                     filter: ImageFilter.blur(
@@ -94,10 +101,7 @@ Widget submitResultScreen(BuildContext context) {
                     ),
                   ),
                 ),
-                Image.file(
-                  File(submitPhotoPath),
-                  fit: BoxFit.contain,
-                ),
+                image,
               ],
             ),
           ),

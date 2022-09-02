@@ -8,3 +8,5 @@ final globalNavigatorKey = GlobalKey<NavigatorState>();
 late String submitPhotoPath;
 
 int lastVisitedId = -1;
+
+const isDemoMode = true;
