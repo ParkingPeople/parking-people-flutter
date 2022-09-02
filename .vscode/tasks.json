@@ -6,7 +6,7 @@
       {
         "label": "Run build runner watcher",
         "type": "shell",
-        "command": "fvm flutter pub run build_runner watch --delete-conflicting-outputs --use-polling-watcher"
+        "command": "while true; do fvm flutter pub run build_runner watch --delete-conflicting-outputs --use-polling-watcher; done"
       },
       {
         "label": "Build release app bundle",
