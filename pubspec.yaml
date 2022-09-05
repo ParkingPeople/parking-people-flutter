@@ -83,7 +83,7 @@ dependencies:
   functional_enum_annotation: "1.2.2"
   functional_widget_annotation: ^0.10.0
   gap: ^2.0.0
-  geocoding: ^2.0.4
+  geocoding: ^2.0.5
   geolocator: ^9.0.1
   get: ^4.6.5
   google_fonts: ^3.0.1
