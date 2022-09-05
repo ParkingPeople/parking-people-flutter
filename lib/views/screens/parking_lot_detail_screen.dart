@@ -67,32 +67,37 @@ Widget parkingLotDetailScreen(BuildContext context) {
     children: [
       AspectRatio(
         aspectRatio: 16 / 9,
-        child: NaverMap(
-          initialCameraPosition: CameraPosition(
-            target: LatLng(parkingLot.latitude, parkingLot.longitude),
-          ),
-          onMapCreated: (controller) async {
-            controller.getMeterPerDp();
-            const targetCellSize = 100;
-            final zoomLevel = 7 * (3 - log10(targetCellSize / 2) / 2);
-            controller.moveCamera(CameraUpdate.zoomTo(zoomLevel));
-          },
-          mapType: MapType.Navi,
-          tiltGestureEnable: false,
-          zoomGestureEnable: false,
-          rotationGestureEnable: false,
-          scrollGestureEnable: false,
-          nightModeEnable:
-              AdaptiveTheme.of(context).brightness == Brightness.dark,
-          markers: [
-            if (parkingPinIcon.value != null)
-              Marker(
-                markerId: 'parkingLot',
-                position: LatLng(parkingLot.latitude, parkingLot.longitude),
-                width: 20,
-                height: 20,
-                icon: parkingPinIcon.value,
+        child: Stack(
+          children: [
+            NaverMap(
+              initialCameraPosition: CameraPosition(
+                target: LatLng(parkingLot.latitude, parkingLot.longitude),
               ),
+              onMapCreated: (controller) async {
+                controller.getMeterPerDp();
+                const targetCellSize = 100;
+                final zoomLevel = 7 * (3 - log10(targetCellSize / 2) / 2);
+                controller.moveCamera(CameraUpdate.zoomTo(zoomLevel));
+              },
+              mapType: MapType.Navi,
+              tiltGestureEnable: false,
+              zoomGestureEnable: false,
+              rotationGestureEnable: false,
+              scrollGestureEnable: false,
+              nightModeEnable:
+                  AdaptiveTheme.of(context).brightness == Brightness.dark,
+              markers: [
+                if (parkingPinIcon.value != null)
+                  Marker(
+                    markerId: 'parkingLot',
+                    position: LatLng(parkingLot.latitude, parkingLot.longitude),
+                    width: 20,
+                    height: 20,
+                    icon: parkingPinIcon.value,
+                  ),
+              ],
+            ),
+            // TODO(qb20nh): Overlay a chip on top of image section
           ],
         ),
       ),

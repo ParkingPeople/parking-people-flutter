@@ -25,6 +25,9 @@ import '/utils/extensions/material_utils.dart';
 
 part 'parking_lot_selection_screen.g.dart';
 
+const demoActivityLevels = ActivityLevel.values;
+final length = demoActivityLevels.length;
+
 @hwidget
 Widget parkingLotSelectionScreen(BuildContext context) {
   final args = context.routeArguments;
@@ -124,8 +127,13 @@ Widget parkingLotSelectionScreen(BuildContext context) {
         ),
       ),
       if (parkingLotsLoaded.value && parkingLots.value.isNotEmpty)
-        ...parkingLots.value
-            .map((parkingLot) => ParkingLotCard(parkingLot: parkingLot)),
+        ...parkingLots.value.mapWithIndex((index, parkingLot) {
+          return ParkingLotCard(
+              parkingLot: isDemoMode
+                  ? parkingLot.copyWith(
+                      activityLevel: demoActivityLevels[index % length])
+                  : parkingLot);
+        }),
       if (parkingLotsLoaded.value && parkingLots.value.isEmpty)
         Center(
           child: Padding(
