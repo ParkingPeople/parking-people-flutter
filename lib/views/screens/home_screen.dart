@@ -284,22 +284,24 @@ Widget homeScreen(BuildContext context) {
                       address: normalizedAddress, position: currentPosition);
                 }
               },
-              child: (() {
-                final place = location.value;
-                if (place == null) return null;
-                final streetAddress =
-                    '${place.administrativeArea} ${place.locality} ${place.subLocality} ${place.thoroughfare} ${place.subThoroughfare}';
-                final normalized = streetAddress.toHalfWidth
-                    .replaceAll(RegExp(r' +'), ' ')
-                    .trim();
-                normalizedAddress = normalized;
-                return Text(
-                  normalized,
-                  style: const TextStyle(
-                    fontSize: 13,
-                  ),
-                );
-              })(),
+              child: isDemoMode
+                  ? const Text('부산광역시 남구 용소로')
+                  : (() {
+                      final place = location.value;
+                      if (place == null) return null;
+                      final streetAddress =
+                          '${place.administrativeArea} ${place.locality} ${place.subLocality} ${place.thoroughfare} ${place.subThoroughfare}';
+                      final normalized = streetAddress.toHalfWidth
+                          .replaceAll(RegExp(r' +'), ' ')
+                          .trim();
+                      normalizedAddress = normalized;
+                      return Text(
+                        normalized,
+                        style: const TextStyle(
+                          fontSize: 13,
+                        ),
+                      );
+                    })(),
             ),
             CustomCard(
               title: Strings.takePhotoAction.i18n,

@@ -150,7 +150,8 @@ Widget parkingLotDetailScreen(BuildContext context) {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: parkingLot.contact ?? '',
+                  text:
+                      isDemoMode ? '055-123-4567' : (parkingLot.contact ?? ''),
                   style: defaultTextStyle?.merge(
                       const TextStyle(decoration: TextDecoration.underline)),
                 ),
