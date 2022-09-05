@@ -9,11 +9,13 @@ repos:
     -   id: check-yaml
     -   id: check-added-large-files
 
-repo:
-- id: hide-secret
-  name: Hide git secret before commit
-  language: system
-  entry: git secret hide
-  always_run: true
-  fail_fast: true
-  verbose: true
+# -   repo: local
+#     hooks:
+#     - id: hide-secret
+#       name: Hide git secret before commit
+#       language: system
+#       entry: git secret hide
+#       always_run: true
+#       fail_fast: true
+#       verbose: true
+#       pass_filenames: false

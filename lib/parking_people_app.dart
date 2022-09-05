@@ -14,7 +14,7 @@ part 'parking_people_app.g.dart';
 
 @swidget
 Widget parkingPeopleApp(BuildContext context) {
-  const bool shouldShowDebugUi = kDebugMode && !isDemoMode;
+  final bool shouldShowDebugUi = kDebugMode && !isDemoMode;
 
   return AdaptiveTheme(
     initial: AdaptiveThemeMode.system,
@@ -59,7 +59,6 @@ Widget parkingPeopleApp(BuildContext context) {
       theme: light,
       darkTheme: dark,
       debugShowCheckedModeBanner: shouldShowDebugUi,
-      debugShowMaterialGrid: shouldShowDebugUi,
     ),
   );
 }

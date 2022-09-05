@@ -9,4 +9,5 @@ late String submitPhotoPath;
 
 int lastVisitedId = -1;
 
-const isDemoMode = false;
+// ignore: prefer_const_declarations
+bool isDemoMode = false;
