@@ -70,7 +70,7 @@ dependencies:
     git:
       url: https://github.com/wnsgh78b/flutter_naver_map.git
       ref: 5e1d6aabb3ebb09d5dc852097cf793d6b99d097e
-  flutter_phoenix: ^1.0.0
+  flutter_phoenix: ^1.1.0
   flutter_portal: ^1.1.1
   flutter_scroll_to_top: ^2.2.4
   flutter_secure_storage: ^5.1.0
