@@ -170,8 +170,8 @@ class Strings {
       en_us: 'Parking Lot',
     },
     toDestinationPrefix: {
-      ko_kr: '목적지에서',
-      en_us: 'Distance',
+      ko_kr: '보행거리',
+      en_us: 'Walking distance',
     },
     takePhotoAction: {
       ko_kr: '주차장 사진 촬영하기',
