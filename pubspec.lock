@@ -91,7 +91,7 @@ packages:
       name: assorted_layout_widgets
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.1"
+    version: "7.0.0"
   async:
     dependency: "direct main"
     description:
@@ -1925,5 +1925,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.17.6 <3.0.0"
+  dart: ">=2.18.0 <3.0.0"
   flutter: ">=3.0.0"
