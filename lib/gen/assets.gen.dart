@@ -47,6 +47,10 @@ class $AssetsImagesGen {
   AssetGenImage get parkingLotSample =>
       const AssetGenImage('assets/images/parking_lot_sample.jpg');
 
+  /// File path: assets/images/play_store_icon.png
+  AssetGenImage get playStoreIcon =>
+      const AssetGenImage('assets/images/play_store_icon.png');
+
   /// File path: assets/images/register_mail.svg
   SvgGenImage get registerMail =>
       const SvgGenImage('assets/images/register_mail.svg');

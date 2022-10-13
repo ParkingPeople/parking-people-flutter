@@ -27,13 +27,16 @@ Widget submitResultScreen(BuildContext context) {
   final args = context.routeArguments;
 
   final File file = args['file'];
+  final double lat = args['lat'];
+  final double lng = args['lng'];
 
   final dio = RestClient(Dio());
 
   if (!isDemoMode) {
     useEffectOnce(() {
       final fetch = CancelableOperation.fromFuture(dio.uploadFile(
-        id: lastVisitedId,
+        lat: lat,
+        lng: lng,
         file: file,
       ))
         ..then((response) {
@@ -44,8 +47,8 @@ Widget submitResultScreen(BuildContext context) {
           }
         });
 
-      return () {
-        fetch.cancel();
+      return () async {
+        await fetch.cancel();
       };
     });
   }

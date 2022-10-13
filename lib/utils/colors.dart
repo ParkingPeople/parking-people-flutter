@@ -6,12 +6,14 @@ MaterialColor createMaterialColor(Color color) {
   final Map<int, Color> swatch = {};
   final int r = color.red, g = color.green, b = color.blue;
 
+  int map(int v, double ds) => v + ((ds < 0 ? v : (255 - v)) * ds).round();
+
   for (final strength in _strengths) {
     final double ds = 0.5 - strength;
     swatch[(strength * 1000).round()] = Color.fromRGBO(
-      r + ((ds < 0 ? r : (255 - r)) * ds).round(),
-      g + ((ds < 0 ? g : (255 - g)) * ds).round(),
-      b + ((ds < 0 ? b : (255 - b)) * ds).round(),
+      map(r, ds),
+      map(g, ds),
+      map(b, ds),
       1,
     );
   }

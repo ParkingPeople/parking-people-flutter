@@ -6,8 +6,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'rest_api.g.dart';
 
-@RestApi(
-    baseUrl: "http://ec2-3-38-224-90.ap-northeast-2.compute.amazonaws.com:8080")
+@RestApi(baseUrl: "https://main.parkingpeople.app")
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -21,7 +20,8 @@ abstract class RestClient {
   @POST("/upload/file")
   @MultiPart()
   Future<bool> uploadFile({
-    @Part(name: "id") required int id,
+    @Part(name: "lat") required double lat,
+    @Part(name: "lon") required double lng,
     @Part(name: "file") required File file,
   });
 }
