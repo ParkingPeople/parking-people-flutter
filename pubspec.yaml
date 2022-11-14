@@ -93,7 +93,7 @@ dependencies:
 
   intl: ^0.17.0
   i18n_extension: ^5.0.0
-  icons_launcher: ^2.0.2
+  icons_launcher: ^2.0.6
   image_picker: ^0.8.5+3
   json_annotation: ^4.6.0
   kakao_flutter_sdk: ^1.2.1
