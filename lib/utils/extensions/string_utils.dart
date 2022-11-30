@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class Holder<T> {
   const Holder(this.value);
 
