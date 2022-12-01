@@ -15,9 +15,7 @@ int lastVisitedId = -1;
 // ignore: prefer_const_declarations
 bool isDemoMode = false;
 
-late final ApiClient? _defaultApiClient;
+final ApiClient defaultApiClient =
+    ParkingLotApi(Dio(), baseUrl: defaultApiBaseUrl);
 
 const defaultApiBaseUrl = "https://main.parkingpeople.app";
-
-ApiClient get defaultApiClient =>
-    _defaultApiClient ??= ParkingLotApi(Dio(), baseUrl: defaultApiBaseUrl);

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
@@ -36,19 +37,23 @@ Widget submitResultScreen(BuildContext context) {
 
   if (!isDemoMode) {
     useEffectOnce(() {
-      final fetch = CancelableOperation.fromFuture(parkingLotApi?.uploadFile(
+      final task = parkingLotApi?.uploadFile(
             lat: lat,
             lng: lng,
             file: file,
           ) ??
-          Future.value(null))
+          Future.value(false);
+      final fetch = CancelableOperation.fromFuture(task)
         ..then(
           (response) {
-            if (response ?? false) {
+            if (response) {
               // success
             } else {
               // error
             }
+          },
+          onCancel: () {
+            unawaited(task.timeout(Duration.zero));
           },
           onError: (err, st) {
             defaultLogger.e("Error while submitting a photo", err, st);

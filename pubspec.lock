@@ -1338,13 +1338,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
-  photo_gallery:
-    dependency: "direct main"
-    description:
-      name: photo_gallery
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.1"
   platform:
     dependency: "direct main"
     description:

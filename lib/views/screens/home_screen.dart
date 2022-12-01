@@ -318,12 +318,19 @@ Widget homeScreen(BuildContext context) {
                   submitPhotoPath = appDocDir.path + filename;
                   photo.saveTo(submitPhotoPath);
 
-                  File file = File(submitPhotoPath);
+                  final File file = File(submitPhotoPath);
+                  final double lat = currentPosition?.latitude ?? 0;
+                  final double lng = currentPosition?.longitude ?? 0;
 
                   if (context.mounted) {
                     Navigator.of(context).pushNamed(
-                        Routes.photoSubmissionResult,
-                        arguments: {'file': file});
+                      Routes.photoSubmissionResult,
+                      arguments: {
+                        'file': file,
+                        'lat': lat,
+                        'lng': lng,
+                      },
+                    );
                   }
                 }
               },

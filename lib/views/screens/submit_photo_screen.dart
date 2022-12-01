@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -30,9 +32,11 @@ Widget submitPhotoScreen(BuildContext context) {
             final filename = 'submitPhoto$now.jpg';
             submitPhotoPath = appDocDir.path + filename;
             photo.saveTo(submitPhotoPath);
+            File file = File(submitPhotoPath);
 
             if (context.mounted) {
-              Navigator.of(context).pushNamed(Routes.photoSubmissionResult);
+              Navigator.of(context).pushNamed(Routes.photoSubmissionResult,
+                  arguments: {'file': file});
             }
           }
         },

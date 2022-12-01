@@ -32,6 +32,8 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
+    namespace 'app.parkingpeople.flutter'
+
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
