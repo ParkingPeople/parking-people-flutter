@@ -27,7 +27,8 @@
     "ui",
     "git",
     "pub",
-    "api"
+    "api",
+    "android"
   ],
   "cSpell.words": [
     "ARGB",
