@@ -28,7 +28,8 @@
     "git",
     "pub",
     "api",
-    "android"
+    "android",
+    "l10n"
   ],
   "cSpell.words": [
     "ARGB",
