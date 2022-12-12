@@ -26,12 +26,37 @@
   "conventionalCommits.scopes": [
     "ui",
     "git",
-    "pub"
+    "pub",
+    "api",
+    "android",
+    "l10n"
   ],
   "cSpell.words": [
+    "ARGB",
+    "Cupertino",
+    "dismisser",
+    "Fluttertoast",
+    "Geolocator",
     "hwidget",
+    "kakao",
     "lerp",
+    "Naver",
+    "Navi",
+    "Parseable",
+    "Placemark",
+    "placemarks",
     "swidget",
-    "vsync"
+    "unawaited",
+    "unparse",
+    "vsync",
+    "ZWNBSP",
+    "ZWSP"
+  ],
+  "cSpell.enableFiletypes": [
+    "!yaml"
+  ],
+  "cSpell.ignoreRegExpList": [
+    "\\u[\\da-fA-F]{4}",
+    "^\\s*(?:import|part (?:of )?) ([\"'])[^\"']+\\1;\\s*$"
   ]
 }

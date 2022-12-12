@@ -15,6 +15,7 @@ import 'package:parking_people_flutter/gen/assets.gen.dart';
 import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/translations.dart';
 import 'package:parking_people_flutter/utils/extensions/list_utils.dart';
+import 'package:parking_people_flutter/utils/extensions/material_utils.dart';
 import 'package:parking_people_flutter/utils/globals.dart';
 import 'package:parking_people_flutter/views/components/custom_card.dart';
 import 'package:parking_people_flutter/views/routes/routes.dart';
@@ -42,8 +43,6 @@ Widget homeScreen(BuildContext context) {
   final textEditingController = useTextEditingController();
 
   final focusNode = useFocusNode();
-
-  final isMounted = useIsMounted();
 
   void gotoNextScreen({
     required String address,
@@ -73,7 +72,7 @@ Widget homeScreen(BuildContext context) {
         );
       }
       if (finalPosition != null) {
-        if (isMounted()) {
+        if (context.mounted) {
           await Navigator.of(context).pushNamed(
             Routes.searchResult,
             arguments: {
@@ -83,7 +82,7 @@ Widget homeScreen(BuildContext context) {
           );
         }
       } else {
-        if (isMounted()) {
+        if (context.mounted) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
@@ -102,9 +101,9 @@ Widget homeScreen(BuildContext context) {
   }
 
   void getLocation() async {
+    final Locale appLocale = Localizations.localeOf(context);
     final Position position = await Geolocator.getCurrentPosition();
     currentPosition = position;
-    final Locale appLocale = Localizations.localeOf(context);
     final List<Placemark> placemarks = await placemarkFromCoordinates(
         position.latitude, position.longitude,
         localeIdentifier: appLocale.languageCode);
@@ -315,14 +314,24 @@ Widget homeScreen(BuildContext context) {
                   final appDocDir = await getApplicationDocumentsDirectory();
                   final now = DateTime.now().millisecondsSinceEpoch;
                   // final filename = appDocDir.path.endsWith(r'/') ? '$now' : '/$now';
-                  const filename = 'submitPhoto.jpg';
+                  final filename = 'submitPhoto$now.jpg';
                   submitPhotoPath = appDocDir.path + filename;
                   photo.saveTo(submitPhotoPath);
 
-                  File file = File(submitPhotoPath);
+                  final File file = File(submitPhotoPath);
+                  final double lat = currentPosition?.latitude ?? 0;
+                  final double lng = currentPosition?.longitude ?? 0;
 
-                  Navigator.of(context).pushNamed(Routes.photoSubmissionResult,
-                      arguments: {'file': file});
+                  if (context.mounted) {
+                    Navigator.of(context).pushNamed(
+                      Routes.photoSubmissionResult,
+                      arguments: {
+                        'file': file,
+                        'lat': lat,
+                        'lng': lng,
+                      },
+                    );
+                  }
                 }
               },
             ),

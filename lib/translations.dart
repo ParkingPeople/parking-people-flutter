@@ -1,6 +1,8 @@
 import 'package:i18n_extension/i18n_extension.dart';
 
+// ignore: constant_identifier_names
 const ko_kr = 'ko_kr';
+// ignore: constant_identifier_names
 const en_us = 'en_us';
 
 abstract class Translatable {
@@ -17,6 +19,7 @@ class Strings {
   static const introTitle = 'introTitle';
   static const introBody = 'introBody';
 
+  // cSpell: disable
   static const kakaoLogin = 'kakaoLogin';
   static const googleLogin = 'googleLogin';
   static const registerMail = 'registerMail';
@@ -42,7 +45,7 @@ class Strings {
   static const String activityLevelFree = 'activityLevelFree';
   static const String activityLevelNormal = 'activityLevelNormal';
   static const String activityLevelCrowded = 'activityLevelCrowded';
-  static const String activityLevelUnkown = 'activityLevelUnkown';
+  static const String activityLevelUnknown = 'activityLevelUnknown';
 
   static const navigate = 'navigate';
 
@@ -57,6 +60,7 @@ class Strings {
   static const takePhotoAction = 'takePhotoAction';
 
   static const photoResultTitle = 'photoResultTitle';
+  static const photoResultSubtitle = 'photoResultSubtitle';
   static const photoResultText = 'photoResultText';
   static const photoTakenAt = 'photoTakenAt';
   static const photoCount = 'photoCount';
@@ -64,8 +68,11 @@ class Strings {
   static const photoState = 'photoState';
   static const photoAnalysisStateDone = 'photoAnalysisStateDone';
 
+  // ignore: constant_identifier_names
   static const parkingLotType_parkingLot = 'parkingLotType_PARKING_LOT';
+  // ignore: constant_identifier_names
   static const parkingLotType_building = 'parkingLotType_BUILDING';
+  // ignore: constant_identifier_names
   static const parkingLotType_street = 'parkingLotType_STREET';
 
   static const about = 'about';
@@ -145,7 +152,7 @@ class Strings {
       ko_kr: '혼잡',
       en_us: 'Busy',
     },
-    activityLevelUnkown: {
+    activityLevelUnknown: {
       ko_kr: '미상',
       en_us: 'N/A',
     },
@@ -180,6 +187,10 @@ class Strings {
     photoResultTitle: {
       ko_kr: '사진 제출 결과',
       en_us: 'Submission Result',
+    },
+    photoResultSubtitle: {
+      ko_kr: '주차장 사진',
+      en_us: 'Parking lot photo',
     },
     photoResultText: {
       ko_kr: '제출 완료',

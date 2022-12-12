@@ -20,10 +20,14 @@ enum PhotoStatus with Translatable {
 
 @functionalEnum
 enum ActivityLevel with Translatable {
+  // ignore: constant_identifier_names
   FREE(Strings.activityLevelFree, ColorName.trafficFree),
+  // ignore: constant_identifier_names
   NORMAL(Strings.activityLevelNormal, ColorName.trafficNormal),
+  // ignore: constant_identifier_names
   CROWDED(Strings.activityLevelCrowded, ColorName.trafficCrowded),
-  UNKNOWN(Strings.activityLevelUnkown, ColorName.darkGrey);
+  // ignore: constant_identifier_names
+  UNKNOWN(Strings.activityLevelUnknown, ColorName.darkGrey);
 
   const ActivityLevel(
     this.translationKey,
@@ -37,9 +41,13 @@ enum ActivityLevel with Translatable {
 }
 
 enum ResponseStatus {
+  // ignore: constant_identifier_names
   OK(200, "OK"),
+  // ignore: constant_identifier_names
   BAD_REQUEST(400, "BAD_REQUEST"),
+  // ignore: constant_identifier_names
   NOT_FOUND(404, "NOT_FOUND"),
+  // ignore: constant_identifier_names
   INTERNAL_SERER_ERROR(500, "INTERNAL_SERVER_ERROR");
 
   const ResponseStatus(this.statusCode, this.code);

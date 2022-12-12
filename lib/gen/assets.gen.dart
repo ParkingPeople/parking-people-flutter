@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -62,6 +62,23 @@ class $AssetsImagesGen {
   /// File path: assets/images/splash_title.svg
   SvgGenImage get splashTitle =>
       const SvgGenImage('assets/images/splash_title.svg');
+
+  /// List of all assets
+  List<dynamic> get values => [
+        googleLogin,
+        icon,
+        iconDark,
+        kakaoLogin,
+        location,
+        logo,
+        logoDark,
+        parking,
+        parkingLotSample,
+        playStoreIcon,
+        registerMail,
+        splashLogo,
+        splashTitle
+      ];
 }
 
 class Assets {
@@ -128,6 +145,8 @@ class AssetGenImage {
     );
   }
 
+  ImageProvider provider() => AssetImage(_assetName);
+
   String get path => _assetName;
 
   String get keyName => _assetName;
@@ -180,4 +199,6 @@ class SvgGenImage {
   }
 
   String get path => _assetName;
+
+  String get keyName => _assetName;
 }

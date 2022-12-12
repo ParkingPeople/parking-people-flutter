@@ -1,6 +1,5 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:async/async.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
@@ -11,6 +10,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:parking_people_flutter/gen/assets.gen.dart';
 import 'package:parking_people_flutter/models/enums.dart';
 import 'package:parking_people_flutter/models/parking_lot.dart';
+import 'package:parking_people_flutter/repository/api_client.dart';
 import 'package:parking_people_flutter/repository/rest_api.dart';
 import 'package:parking_people_flutter/translations.dart';
 import 'package:parking_people_flutter/utils/globals.dart';
@@ -44,26 +44,31 @@ Widget parkingLotSelectionScreen(BuildContext context) {
 
   defaultLogger.d(args);
 
-  final dio = RestClient(Dio());
+  final parkingLotApi = ApiClientLocator.instance.lookup<ParkingLotApi>();
 
   final ValueNotifier<bool> parkingLotsLoaded = useState<bool>(false);
 
   useEffectOnce(() {
-    final fetch = CancelableOperation.fromFuture(dio.getRecommendations(
-      lat: location.latitude,
-      lng: location.longitude,
-      rangeInKm: 1,
-    ))
-      ..then((response) {
-        parkingLots.value = response.parkingLots;
-        parkingLotsLoaded.value = true;
-      });
+    final fetch =
+        CancelableOperation.fromFuture(parkingLotApi?.getRecommendations(
+              lat: location.latitude,
+              lng: location.longitude,
+              rangeInKm: 1,
+            ) ??
+            Future.value(null))
+          ..then((response) {
+            parkingLots.value = response!.parkingLots;
+            parkingLotsLoaded.value = true;
+          }, onError: (err, st) {
+            defaultLogger.e(
+                "Error fetching parking lot recommendations", err, st);
+          });
     return () {
       fetch.cancel();
     };
   });
 
-  const Color naverColor = Color.fromARGB(255, 100, 255, 130);
+  // const Color naverColor = Color.fromARGB(255, 100, 255, 130);
 
   useMount(() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -109,7 +114,7 @@ Widget parkingLotSelectionScreen(BuildContext context) {
           markers: [
             if (targetPinIcon.value != null)
               Marker(
-                markerId: 'mylocation',
+                markerId: 'my_location',
                 position: LatLng(location.latitude, location.longitude),
                 width: 20,
                 height: 20,

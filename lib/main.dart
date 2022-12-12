@@ -3,8 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_template.dart';
 import 'package:parking_people_flutter/parking_people_app.dart';
+import 'package:parking_people_flutter/utils/globals.dart';
 
 void main() {
   final WidgetsBinding widgetsBinding =
@@ -32,7 +34,15 @@ void main() {
   });
 }
 
+AndroidOptions _getAndroidOptions() => const AndroidOptions(
+      encryptedSharedPreferences: true,
+    );
+
 Future<void> init() async {
   // do some stuffs
   KakaoSdk.init(nativeAppKey: '18020f566d5e17cbc29cd223965cd435');
+
+  storage = FlutterSecureStorage(
+    aOptions: _getAndroidOptions(),
+  );
 }

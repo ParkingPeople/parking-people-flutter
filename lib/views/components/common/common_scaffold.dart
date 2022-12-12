@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -171,8 +173,8 @@ class _CommonScaffoldState extends SafeState<_CommonScaffold>
   void _onScroll() {
     if (_scrollController.hasClients) {
       final top = _scrollController.position.minScrollExtent;
-      final curr = _scrollController.offset;
-      final dist = curr - top;
+      final currentOffset = _scrollController.offset;
+      final dist = currentOffset - top;
       if (dist > 9 && !_isScrolling) {
         setState(() {
           _isScrolling = true;

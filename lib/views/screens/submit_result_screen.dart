@@ -1,8 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
 import 'package:async/async.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_use/flutter_use.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
@@ -10,6 +10,7 @@ import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:parking_people_flutter/gen/assets.gen.dart';
 import 'package:parking_people_flutter/gen/colors.gen.dart';
+import 'package:parking_people_flutter/repository/api_client.dart';
 import 'package:parking_people_flutter/repository/rest_api.dart';
 import 'package:parking_people_flutter/translations.dart';
 import 'package:parking_people_flutter/utils/globals.dart';
@@ -30,22 +31,34 @@ Widget submitResultScreen(BuildContext context) {
   final double lat = args['lat'];
   final double lng = args['lng'];
 
-  final dio = RestClient(Dio());
+  final parkingLotApi = ApiClientLocator.instance.lookup<ParkingLotApi>();
+
+  final ValueNotifier<String?> lotName = useState<String?>(null);
 
   if (!isDemoMode) {
     useEffectOnce(() {
-      final fetch = CancelableOperation.fromFuture(dio.uploadFile(
-        lat: lat,
-        lng: lng,
-        file: file,
-      ))
-        ..then((response) {
-          if (response) {
-            // success
-          } else {
-            // error
-          }
-        });
+      final task = parkingLotApi?.uploadFile(
+            lat: lat,
+            lng: lng,
+            file: file,
+          ) ??
+          Future.value(false);
+      final fetch = CancelableOperation.fromFuture(task)
+        ..then(
+          (response) {
+            if (response) {
+              // success
+            } else {
+              // error
+            }
+          },
+          onCancel: () {
+            unawaited(task.timeout(Duration.zero));
+          },
+          onError: (err, st) {
+            defaultLogger.e("Error while submitting a photo", err, st);
+          },
+        );
 
       return () async {
         await fetch.cancel();
@@ -85,9 +98,10 @@ Widget submitResultScreen(BuildContext context) {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '하나 주차장',
-            style: TextStyle(
+          Text(
+            // TODO(qb20nh): this normally would be the display name of the real parking lot
+            lotName.value ?? Strings.photoResultSubtitle.i18n,
+            style: const TextStyle(
               fontSize: 20,
             ),
           ),

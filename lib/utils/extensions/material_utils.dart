@@ -7,3 +7,14 @@ extension RouteArguments on BuildContext {
     return args is Map<String, dynamic> ? args : {};
   }
 }
+
+extension ContextExtensions on BuildContext {
+  bool get mounted {
+    try {
+      widget;
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+}

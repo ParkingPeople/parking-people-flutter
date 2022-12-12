@@ -14,6 +14,8 @@ import 'package:parking_people_flutter/gen/colors.gen.dart';
 import 'package:parking_people_flutter/models/parking_lot.dart';
 import 'package:parking_people_flutter/translations.dart';
 import 'package:parking_people_flutter/utils/globals.dart';
+import 'package:parking_people_flutter/views/components/common/auto_flex.dart';
+import 'package:parking_people_flutter/views/components/common/conditional.dart';
 import 'package:parking_people_flutter/views/components/common_badge.dart';
 import 'package:parking_people_flutter/views/components/common_scaffold.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -209,11 +211,21 @@ Widget parkingLotDetailScreen(BuildContext context) {
             color: chipColor,
             content: '정기 요금',
           ),
-          const Gap(8),
           Expanded(
-            child: Text(
-              _getRoutineFeeText(parkingLot),
-              overflow: TextOverflow.fade,
+            child: Conditional<String>(
+              value: _getRoutineFeeText(parkingLot),
+              condition: (value) => value.isNotEmpty,
+              builder: (value) => AutoFlex(
+                children: [
+                  const Gap(8),
+                  Expanded(
+                    child: Text(
+                      value,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -240,7 +252,7 @@ Widget parkingLotDetailScreen(BuildContext context) {
             );
           } else {
             launchUrlString(
-                'geo:${parkingLot.latitude},${parkingLot.longitude}?q=${parkingLot.name}');
+                'geo:${parkingLot.latitude},${parkingLot.longitude}(${parkingLot.name})?q=${parkingLot.address}&z=${21}');
           }
         },
         child: Text(
@@ -280,8 +292,8 @@ String _getFeeText(ParkingLot parkingLot) {
 String _getRoutineFeeText(ParkingLot parkingLot) {
   final dailyFee = parkingLot.dailyFee, monthlyFee = parkingLot.monthlyFee;
 
-  final dailyFeePart = dailyFee == null ? '' : '일주차 $dailyFee원';
-  final monthlyFeePart = monthlyFee == null ? '' : '월주차 $monthlyFee원';
+  final dailyFeePart = (dailyFee ?? 0) > 0 ? '일주차 $dailyFee원' : '';
+  final monthlyFeePart = (monthlyFee ?? 0) > 0 ? '월주차 $monthlyFee원' : '';
 
   return [dailyFeePart, monthlyFeePart]
       .where((part) => part.isNotEmpty)
